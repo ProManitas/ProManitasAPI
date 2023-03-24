@@ -2,7 +2,7 @@ const { Router } = require('express');
 const DB = require('../../MOCK_DATA_PRO.json');
 const router = Router();
 
-
+//GET ROUTES -------------------------------
 router.get('/', (req, res) => {
     res.status(200).send({
         message: 'All DB',
@@ -18,6 +18,6 @@ router.get('/:id', (req, res) => {
         data: DB.filter(e => e.id === id * 1)
     });
 });
-
+//-------------------------------
 
 module.exports = router;
