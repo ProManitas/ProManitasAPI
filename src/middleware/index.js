@@ -20,7 +20,7 @@ const validationID = () => {
 const validatorName = () => {
     return ( req, res, next ) => {
         const { name } = req.query;
-        const regex = /^[a-zA-Z\s]+$/;
+        const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
 
         const matches = name.match(regex)
         
