@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const DB = require('../../MOCK_DATA_PRO.json');
-const { validationID } = require('../../middleware/index.js')
+const { validationID } = require('../../middleware/index.js');
 const router = Router();
 
 //GET ROUTES -------------------------------
