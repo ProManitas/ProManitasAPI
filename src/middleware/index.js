@@ -1,3 +1,4 @@
+//VALIDATOR ID
 const validationID = () => {
     return (req, res, next) => {
         const data = req.params.id;
@@ -17,6 +18,7 @@ const validationID = () => {
     };
 };
 
+//VALIDATOR NAME
 const validatorName = () => {
     return ( req, res, next ) => {
         const { name } = req.query;

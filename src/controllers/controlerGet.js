@@ -1,7 +1,9 @@
+//IMPORTS
 const { sequelize, Op } = require('sequelize');
 const { Clients, Experience, Providers } = require('../db');
 
 module.exports = {
+  //ALL CLIENTS DB
   getClients: async () => {
     try {
       const response = await Clients.findAll()
@@ -24,6 +26,7 @@ module.exports = {
       return error
     }
   },
+  //ALL PROVIDERS DB
   getProviders: async()=>{
     try {
         const response = await Clients.findAll({
