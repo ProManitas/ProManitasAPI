@@ -15,8 +15,26 @@ const validationID = () => {
         };
         return next();
     };
-}
+};
+
+const validatorName = () => {
+    return ( req, res, next ) => {
+        const { name } = req.query;
+        const regex = /^[a-zA-Z\s]+$/;
+
+        const matches = name.match(regex)
+        
+        if(!matches){
+            res.status(400).send({
+                error: `${name} is invalid, must be only letters`
+            })
+            return;
+        };
+        return next();
+    };
+};
 
 module.exports = {
-    validationID
-}
+    validationID,
+    validatorName
+};
