@@ -12,7 +12,7 @@ const { validationID } = require('../../middleware/index.js');
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Users',
-        data: await getClients()
+        data: [... await getClients() , ... DB]
     });
 });
 
