@@ -7,13 +7,13 @@ const validationID = () => {
 
         const matches = data.match(regex) || data.match(uuidRegEx)
 
-        if(!matches){
-            //ERROR VALIDATION
-            res.status(400).json({
-                error : `${data} is invalid`,
-            });
-            return;
-        };
+        // if(!matches){
+        //     //ERROR VALIDATION
+        //     res.status(400).json({
+        //         error : `${data} is invalid`,
+        //     });
+        //     return;
+        // };
         return next();
     };
 };

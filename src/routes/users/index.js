@@ -22,7 +22,7 @@ router.get('/:id', validationID(), async (req, res) => {
 
     res.status(200).send({
         message: 'User ' + id,
-        data: await getClients().filter(e => e.id === id * 1)
+        data: DB.filter(e => e.id == id )
     });
 });
 
