@@ -51,13 +51,11 @@ _Herramientas usadas_
 
 ## Autores ✒️
 
-_Contribuyentes_
+_Principales contribuyentes_
 
 * **Mariana Gabriela Flores**  [Marigabyfc]([https://github.com/Marigabyfc])
-* * **Manuel Alexis Zuñiga Goddard**  [Zetta94]([https://github.com/Zetta94])
-* * **Kevin Alfonzo Espinett**  [RaiderAlf]([https://github.com/RaiderAlf])
-
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/ProManitas/contributors) quíenes han participado en este proyecto. 
+* **Manuel Alexis Zuñiga Goddard**  [Zetta94]([https://github.com/Zetta94])
+* **Kevin Alfonzo Espinett**  [RaiderAlf]([https://github.com/RaiderAlf])
 
 ## Licencia 📄
 
