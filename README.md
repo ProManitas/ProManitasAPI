@@ -10,9 +10,10 @@ Mira **Deployment** para conocer como desplegar el proyecto.
 
 
 ### Pre-requisitos 📋
-
-_NodeJs ^16_
-_PostgreSQL ^14_
+```
+NodeJs ^16
+PostgreSQL ^14
+```
 
 ### Instalación 🔧
 
