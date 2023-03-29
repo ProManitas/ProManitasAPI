@@ -38,7 +38,7 @@ module.exports = (database) =>{
             type: DataTypes.STRING,
             allowNull: false
         },
-        rol:{
+        role:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             allowNull: false
