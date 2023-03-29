@@ -38,6 +38,9 @@ localhost:3001
 ## Despliegue 📦
 
 _Desplegado en Render_
+```
+https://promanitasapi.onrender.com
+```
 
 ## Construido con 🛠️
 
@@ -63,11 +66,7 @@ Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md
 ## Expresiones de Gratitud 🎁
 
 * Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
-* Da las gracias públicamente 🤓.
-* Dona con cripto a esta dirección: `0xf253fc233333078436d111175e5a76a649890000`
-* etc.
-
+* Agradecemos principalmente a SoyHENRY y a nuestros familiares por todo el apoyo recibido para este proyecto.
 
 
 ---
