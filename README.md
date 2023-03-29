@@ -1,6 +1,6 @@
 # ProManitasAPI
 
-_RESTAPI from ProManitas Project
+_RESTAPI from ProManitas Project_
 
 ## Start 🚀
 
