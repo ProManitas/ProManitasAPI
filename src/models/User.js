@@ -1,12 +1,17 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = (database) =>{
-    database.define( "Clients", {
+    database.define( "user", {
         id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
             autoIncrement : true
+        },
+        username:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique:true
         },
         firstname:{
             type: DataTypes.STRING,
@@ -34,16 +39,25 @@ module.exports = (database) =>{
             type: DataTypes.STRING,
             allowNull: false
         },
-        is_provider:{
+        rol:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,
+            allowNull: false
+        },
+        experience:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
+        },
+        image:{
+            type: DataTypes.TEXT,
             allowNull: false
         },
         delete:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             allowNull: false
-        } // LOS DEL FRONT TIENEN QUE ENCARGARSE DE QUE SEAN MAYORES DE EDAD; 
+        }  
     })
 }
 
