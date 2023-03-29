@@ -10,12 +10,14 @@ const server = express();
 
 server.use(bodyParser.json());
 server.use(morgan('dev'));
-server.use(cors());
+server.use(cors({
+  origin: '*'
+}));
 
 server.use('/', router)
 
 server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin : *");
     next();
   });
 
