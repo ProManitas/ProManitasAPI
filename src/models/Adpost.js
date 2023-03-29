@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize')
 
 module.exports = (database) =>{
-    database.define('adpost', {
+    database.define('Adpost', {
         id:{
             type: DataTypes.INTEGER,
             primaryKey: true,
