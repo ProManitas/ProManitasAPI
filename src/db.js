@@ -1,61 +1,46 @@
+//IMPORTS
 require('dotenv').config();
+const {DB_USER, DB_HOST, DB_PASSWORD, DB} = process.env;
+//DB
 const { Sequelize } = require('sequelize');
-const {DB_USER, DB_HOST, DB_PASSWORD, DB} = process.env
-const fs = require('fs')
-const path = require('path')
+const AdpostModel = require('./models/Adpost.js');
+const RatingModel = require('./models/Rating.js');
+const ServicesModel = require('./models/Services.js');
+const UserModel = require('./models/User.js');
 
-
+//CONN DB POSTGRESQL
 const database = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
     logging : false,
     native:false // permite que Sequelize sepa que podemos usar pg-native para 30% más de velocidad
-})
+});
 
-const basename = path.basename(__filename);
+//INJECT MODELS TO DB
+AdpostModel(database)
+RatingModel(database)
+ServicesModel(database)
+UserModel(database)
 
-const modelDefiners = [];
+//RELATIONS MODELS
+const { Adpost, Rating, Services, User} = database.models;
 
+//RELATIONS USERS
+User.hasMany(Adpost) 
+Adpost.belongsTo(User)
 
-// Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
-fs.readdirSync(path.join(__dirname, '/models'))
-  .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
-  .forEach((file) => {
-    modelDefiners.push(require(path.join(__dirname, '/models', file)));
-  });
+//RELATIONS SERVICES
+Services.hasMany(Adpost)
+Adpost.belongsTo(Services)
 
-  // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach(model => model(sequelize));
+//RELATIONS RATINGS
+Adpost.hasMany(Rating)
+Rating.belongsTo(Adpost)
 
-// Capitalizamos los nombres de los modelos ie: product => Product
-let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
-sequelize.models = Object.fromEntries(capsEntries);
+//RELATIONS USER AND RATINGS
+User.hasMany(Rating)
+Rating.belongsTo(User)
 
-// En sequelize.models están todos los modelos importados como propiedades
-// Para relacionarlos hacemos un destructuring
-const { Clients,Providers,Experience} = sequelize.models;
-
-// Las relaciones
-Clients.hasMany(Providers, {
-    through: 'ClientsProviders',
-    foreignKey: 'clientId',
-  })
-  
-  Providers.hasMany(Clients, {
-    through: 'ClientsProviders',
-    foreignKey: 'providerId',
-  })
-  
-  Providers.hasMany(Experience, {
-    through: 'ProvidersExperience',
-    foreignKey: 'providerId',
-  })
-  
-  Experience.belongsTo(Providers, {
-    through: 'ProvidersExperience',
-    foreignKey: 'experienceId',
-  })
 
 module.exports = {
-    ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-    conn: sequelize     // para importart la conexión { conn } = require('./db.js');
-}
+    ...database.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
+    database  // para importart la conexión { conn } = require('./db.js');
+};

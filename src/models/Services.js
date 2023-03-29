@@ -1,12 +1,11 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (database) =>{
-    database.define('services', {
+    database.define('Services', {
         id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey:true,
-            autoIncrement: true
         },
         name:{
             type: DataTypes.STRING,
