@@ -1,6 +1,6 @@
 //IMPORTS
 const { sequelize, Op } = require('sequelize')
-const { Adpost, Rating, Services, User } = require('../db')
+const { Adpost, Rating, Services, User, UserServices,finishedService } = require('../db')
 
 const UserProperties = user => ({
   id: user.id,
@@ -97,6 +97,31 @@ module.exports = {
     } catch(error) {
       console.error(error)
       return { message: 'Ocurrió un error al buscar un servicio por ID' }
+    }
+  },
+  //Devuelve todos los Adpost
+  getAdpost: async () => {
+    try {
+      const response = await Adpost.findAll()
+      const filteredAdpost = await response.filter(ad=> !ad.delete)
+      const adpostList = filteredAdpost.map(ad=> ({
+        id: ad.id,
+        name: ad.name,
+        description: ad.description
+      }))
+      return adpostList
+    } catch(error) {
+      console.error(error)
+      return { message: 'Ocurrió un error al buscar los avisos' }
+    }
+  },
+  //Devuelve todos los avisos de un determinado servicio
+  getAdpostFilterByService: async(serviceName)=>{
+    try {
+      console.log("todavia no termino")
+    } catch(error) {
+      console.error(error)
+      return { message: 'Ocurrió un error al buscar los avisos' }
     }
   }
 }
