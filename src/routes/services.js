@@ -3,6 +3,7 @@ const { Router } = require('express');
 const router = Router();
 //CONTROLLERS
 const { getServices, getServiceId } = require('../controllers/controlerGet');
+const { postServices } = require('../controllers/controlerPost');
 
 
 //SERVICES DB
@@ -20,3 +21,11 @@ router.get('/:id', async (req, res) => {
         data: await getServiceId()
     });
 });
+
+router.post('/', async (req, res) =>{
+    const { name } = req.body
+    res.status(201).send({
+        message: 'El servicio ' + name + ' se ha creado exitosamente',
+        data: await postServices()
+    })
+})
