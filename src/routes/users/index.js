@@ -4,7 +4,7 @@ const router = Router();
 //DB MOCK
 const DB = require('../../MOCK_DATA_USERS.json');
 //CONTROLLERS
-const { getClients } = require('../../controllers/controlerGet');
+const { getUsers } = require('../../controllers/controlerGet');
 //MIDDLEWARES
 const { validationID } = require('../../middleware/index.js');
 
@@ -12,7 +12,7 @@ const { validationID } = require('../../middleware/index.js');
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Users',
-        data: [... await getClients() , ... DB]
+        data: [... await getUsers() , ... DB]
     });
 });
 
