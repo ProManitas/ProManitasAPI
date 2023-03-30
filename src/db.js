@@ -39,6 +39,13 @@ Rating.belongsTo(Adpost)
 User.hasMany(Rating)
 Rating.belongsTo(User)
 
+//RELATION USER && SERVICES
+User.belongsToMany(Services, {through: 'UserServices', timestamps: false})
+Services.belongsToMany(User, {through: 'UserServices', timestamps: false})
+
+//RELATION USER && ADPOSTS
+User.belongsToMany(Adpost, {through: 'FinishedService'})
+Adpost.belongsToMany(User, {through: 'FinishedService'})
 
 module.exports = {
     ...database.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
