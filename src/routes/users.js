@@ -51,4 +51,15 @@ router.get('/:id', validationID(), async (req, res) => {
     });
 });
 
+//FALTA MIDDLEWARE DE VALIDACION
+router.post('/signUp', async (req, res) => {
+    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body
+        const signing = await signUp(username, firstname, lastname, email, password, cellnumber, address, image)
+        res.status(201).send({
+            message: 'User ' + username + ' has been created succesfully',
+            data: signing
+        })
+    }
+)
+
 module.exports = router;
