@@ -5,7 +5,7 @@ const router = Router();
 const { getServices, getServiceId } = require('../controllers/controlerGet');
 
 
-//SERVICES DB
+//----------------GET
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Services',
@@ -20,5 +20,14 @@ router.get('/:id', async (req, res) => {
         data: await getServiceId() || 'Esto es servicios por ID'
     });
 });
+
+//---------------POST
+router.post('/', async (req, res) =>{
+    const { name } = req.body
+    res.status(201).send({
+        message: 'El servicio ' + name + ' se ha creado exitosamente',
+        data: await postServices()
+    })
+})
 
 module.exports = router
