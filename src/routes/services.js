@@ -9,7 +9,7 @@ const { getServices, getServiceId } = require('../controllers/controlerGet');
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Services',
-        data: await getServices()
+        data: await getServices() || 'Esto es servicios'
     });
 });
 
@@ -17,6 +17,8 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
     res.status(200).send({
         message: `Service id: ${id}`,
-        data: await getServiceId()
+        data: await getServiceId() || 'Esto es servicios por ID'
     });
 });
+
+module.exports = router
