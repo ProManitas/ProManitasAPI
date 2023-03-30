@@ -5,6 +5,7 @@ const router = Router();
 const DB = require('../../MOCK_DATA_USERS.json');
 //CONTROLLERS
 const { getUsers } = require('../../controllers/controlerGet');
+const {signUp} = require('../../controllers/controlerPost')
 //MIDDLEWARES
 const { validationID } = require('../../middleware/index.js');
 
@@ -26,5 +27,15 @@ router.get('/:id', validationID(), async (req, res) => {
     });
 });
 
+//FALTA MIDDLEWARE DE VALIDACION
+router.post('/signUp', async (req, res) => {
+    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body
+        const signing = await signUp(username, firstname, lastname, email, password, cellnumber, address, image)
+        res.status(201).send({
+            message: 'User ' + username + ' has been created succesfully',
+            data: signing
+        })
+    }
+)
 
 module.exports = router;
