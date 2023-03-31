@@ -8,6 +8,7 @@ const { postServices, newAdpost } = require('../controllers/controlerPost');
 
 
 //----------------GET
+//ALL SERVICES
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Services',
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
     }); 
 });
 
+//SERVICE BY ID
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     res.status(200).send({
@@ -23,29 +25,23 @@ router.get('/:id', async (req, res) => {
     });
 });
 
-router.post('/', async (req, res) =>{
-    const { name } = req.body
-    res.status(201).send({
-        message: 'Service name: ' + name,
-        data: await postServices(name)
-    })
-})
-
-router.post('/adpost', async (req, res) =>{
-    const { name, description } = req.body
-    res.status(201).send({
-        message: 'Su anuncio se ha posteado correctamente',
-        data: newAdpost(name, description)
-    });
-});
-
 //---------------POST
+//CREATE NEW SERVICE
 router.post('/', async (req, res) =>{
     const { name } = req.body
     res.status(201).send({
         message: 'El servicio ' + name + ' se ha creado exitosamente',
-        data: await postServices()
-    })
-})
+        data: await postServices(name)
+    });
+});
+
+//CREATE NEW ADPOST
+router.post('/adpost', async (req, res) =>{
+    const { name, description, /* service, username */ } = req.body
+    res.status(201).send({
+        message: 'Su anuncio se ha posteado correctamente',
+        data: await newAdpost(name, description, /* service, username */)
+    });
+});
 
 module.exports = router

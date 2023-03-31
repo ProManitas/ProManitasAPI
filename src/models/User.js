@@ -29,8 +29,9 @@ module.exports = (database) =>{
             type: DataTypes.STRING,
             allowNull: false
         },
+        //SE CAMBIO CELLNUMBER A STRING PARA QUE ACEPTARA LOS DATOS DE LA API MOCKEADA YA QUE LOS CELLNUMBER TIENEN GUIONES
         cellnumber:{
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true
         },

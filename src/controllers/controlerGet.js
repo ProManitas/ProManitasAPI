@@ -55,11 +55,9 @@ module.exports = {
     try {
       const response = await User.findAll()
       const user = response.find(user => user.id == id)
-      if(user) {
-        return UserProperties(user)
-      } else {
-        return null
-      }
+
+      return UserProperties(user)
+
     } catch(error) {
       console.error(error)
       return { message: 'Ocurrió un error al buscar un usuario por ID' }
