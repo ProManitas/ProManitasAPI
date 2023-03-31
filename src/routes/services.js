@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Services',
         data: [...await getServices(), ...DB]
-        data: await getServices() || 'Esto es servicios'
     });
 });
 
@@ -37,7 +36,6 @@ router.post('/adpost', async (req, res) =>{
     res.status(201).send({
         message: 'Su anuncio se ha posteado correctamente',
         data: newAdpost(name, description)
-        data: await getServiceId() || 'Esto es servicios por ID'
     });
 });
 
