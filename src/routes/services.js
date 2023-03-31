@@ -7,11 +7,12 @@ const { getServices, getServiceId } = require('../controllers/controlerGet');
 const { postServices, newAdpost } = require('../controllers/controlerPost');
 
 
-//SERVICES DB
+//----------------GET
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Services',
         data: [...await getServices(), ...DB]
+        data: await getServices() || 'Esto es servicios'
     });
 });
 
@@ -36,6 +37,16 @@ router.post('/adpost', async (req, res) =>{
     res.status(201).send({
         message: 'Su anuncio se ha posteado correctamente',
         data: newAdpost(name, description)
+        data: await getServiceId() || 'Esto es servicios por ID'
+    });
+});
+
+//---------------POST
+router.post('/', async (req, res) =>{
+    const { name } = req.body
+    res.status(201).send({
+        message: 'El servicio ' + name + ' se ha creado exitosamente',
+        data: await postServices()
     })
 })
 
