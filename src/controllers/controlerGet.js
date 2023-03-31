@@ -116,12 +116,16 @@ module.exports = {
     }
   },
   //Devuelve todos los avisos de un determinado servicio
-  getAdpostFilterByService: async(serviceName)=>{
+  getAdpostFilterByService: async(serviceId)=>{
     try {
-      console.log("todavia no termino")
-    } catch(error) {
-      console.error(error)
-      return { message: 'Ocurrió un error al buscar los avisos' }
+      const adposts = await Adpost.findAll({
+        where: { ServiceId: serviceId },
+        include: [Services],
+      });  
+      return adposts;
+    } catch (error) {
+      console.error(error);
+      return {message :'Ocurrió un error al buscar los Adpost del servicio'};
     }
   }
 }
