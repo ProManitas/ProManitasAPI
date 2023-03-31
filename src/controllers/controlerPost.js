@@ -22,7 +22,7 @@ const signUp = async (username, firstname, lastname, email, password, cellnumber
 
 const postServices = async (name) =>{
     try {
-        const newService = await Services.create({name : name})
+        const newService = await Services.create({name})
         return newService
     } catch (error) {
         console.error(error)
@@ -30,9 +30,18 @@ const postServices = async (name) =>{
     }
 }
 
-
+const newAdpost = async (name, description) =>{
+    try {
+        const adpost = await Adpost.create({name, description})
+        return adpost
+    } catch (error) {
+        console.error(error);
+        return {message: 'Su anuncio no ha podido ser posteado'}
+    }
+}
 
 module.exports ={
     signUp,
     postServices,
+    newAdpost,
 }
