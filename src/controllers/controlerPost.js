@@ -25,6 +25,7 @@ const signUp = async (username, firstname, lastname, email, password, cellnumber
     };
 };
 
+//CREATE NEW SERVICE
 const postServices = async (name) =>{
     try {
 
@@ -60,9 +61,10 @@ const newAdpost = async (name, description, /* service, username */) =>{
     };
 };
 
+//------------------------MOCK DATA----------------------------------
     const filledDbServices = async () =>{
-        fakeDb.map(e => Services.create({name : e.name}))
-    }
+        fakeDb.map(e => Services.create({name : e.name}));
+    };
 
     const filledDbUsers = async () =>{
         fakeDbUsers.map(e => User.create({
@@ -77,8 +79,10 @@ const newAdpost = async (name, description, /* service, username */) =>{
             experience: e.experience,
             image: e.image,
             delete: e.delete
-        }))
-    }
+        }));
+    };
+
+//---------------------------------------------------------------------
 
 module.exports ={
     signUp,
