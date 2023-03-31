@@ -16,10 +16,32 @@ const signUp = async (username, firstname, lastname, email, password, cellnumber
     }   
      catch (error) {
         console.error(error)
-        return {message: "It seens like we're having a problem creating the user"}
+        return {message: "El usuario no pudo ser creado"}
+    }
+}
+
+const postServices = async (name) =>{
+    try {
+        const newService = await Services.create({name})
+        return newService
+    } catch (error) {
+        console.error(error)
+        return {message: "El servicio no pudo ser creado"}
+    }
+}
+
+const newAdpost = async (name, description) =>{
+    try {
+        const adpost = await Adpost.create({name, description})
+        return adpost
+    } catch (error) {
+        console.error(error);
+        return {message: 'Su anuncio no ha podido ser posteado'}
     }
 }
 
 module.exports ={
     signUp,
+    postServices,
+    newAdpost,
 }

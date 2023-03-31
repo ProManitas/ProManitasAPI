@@ -13,7 +13,8 @@ module.exports = (database) =>{
         },
         image:{
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: false,
+            defaultValue: false
         }
     },
     {
