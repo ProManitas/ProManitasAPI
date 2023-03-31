@@ -1,14 +1,13 @@
 //IMPORTS
 const { Router } = require('express');
 const router = Router();
-//DB MOCK
-const DB = require('../MOCK_DATA_USERS.json');
 //CONTROLLERS
 const { getUsers, getUserId, getUsersWithRole, getUsersWithoutRole } = require('../controllers/controlerGet');
+const {signUp} = require('../controllers/controlerPost')
 //MIDDLEWARES
-const { validationID } = require('../middleware/index.js');
+const { validationID, validatorSignIn } = require('../middleware/index.js');
 
-//USER DB
+//--------------- GET
 router.get('/', async (req, res) => {
 
     //USER WITH ROLE && WITHOUT ROLE
@@ -21,7 +20,7 @@ router.get('/', async (req, res) => {
 
             res.status(200).send({
                 message: 'User with Role',
-                data: [...await getUsersWithRole(), ...DB.filter(e => e.role == true )]
+                data: await getUsersWithRole()
             });
             return;
         };
@@ -29,15 +28,16 @@ router.get('/', async (req, res) => {
         if( role == 'false' ){
             res.status(200).send({
                 message: 'User without Role',
-                data: [... await getUsersWithoutRole()  , ...DB.filter(e => e.role == false )]
+                data: await getUsersWithoutRole()
             });
             return;
         };
     };
     
+    //ALL USERS
     res.status(200).send({
         message: 'All Users',
-        data: [... await getUsers() , ...DB]
+        data: await getUsers()
     });
 });
 
@@ -47,19 +47,21 @@ router.get('/:id', validationID(), async (req, res) => {
 
     res.status(200).send({
         message: 'User ' + id,
-        data: getUserId() || DB.filter(e => e.id == id )
-    });
+        data: await getUserId(id)
+    }); 
 });
 
-//FALTA MIDDLEWARE DE VALIDACION
-router.post('/signUp', async (req, res) => {
-    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body
-        const signing = await signUp(username, firstname, lastname, email, password, cellnumber, address, image)
-        res.status(201).send({
-            message: 'User ' + username + ' has been created succesfully',
-            data: signing
-        })
-    }
-)
+//------------------------POST
+//FORM TO SIGN-IN
+router.post('/signUp', validatorSignIn(), async (req, res) => {
+
+    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body;
+    const signing = await signUp(username, firstname, lastname, email, password, cellnumber, address, image);
+
+    res.status(201).send({
+        message: 'User ' + username + ' has been created successfully',
+        data: signing
+    });
+});
 
 module.exports = router;

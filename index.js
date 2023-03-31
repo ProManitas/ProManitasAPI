@@ -19,12 +19,15 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const server = require('./src/app.js');
+const { filledDbServices, filledDbUsers } = require('./src/controllers/controlerPost.js');
 const { database } = require('./src/db')
 
 // SYNC MODELS
 database.sync({ force: true })
     .then(() => {
-        server.listen(3001, () => { 
+        server.listen(3001, () => {
+            filledDbUsers() 
+            filledDbServices()
             console.log('Listening at' + ' ' + 3001)
         });
     });
