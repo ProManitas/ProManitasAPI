@@ -1,6 +1,6 @@
 //IMPORTS
 const { sequelize, Op } = require('sequelize')
-const { Adpost, Rating, Services, User, UserServices,finishedService } = require('../db')
+const { Adpost, Rating, Services, User } = require('../db')
 
 const UserProperties = user => ({
   id: user.id,
@@ -80,52 +80,19 @@ module.exports = {
       return { message: 'Ocurrió un error al buscar los servicios' }
     }
   },
-  //Devuelve un determinado servicio
+  //Devuelve un determinado servicio 
   getServiceId: async (id) => {
     try {
       const response = await Services.findAll()
       const service = response.find(service => service.id == id)
-      if(service) {
         return {
           id: service.id,
-          name: service.name,
+          name: service.name, 
           image: service.image
         }
-      } else {
-        return null
-      }
     } catch(error) {
       console.error(error)
-      return { message: 'Ocurrió un error al buscar un servicio por ID' }
-    }
-  },
-  //Devuelve todos los Adpost
-  getAdpost: async () => {
-    try {
-      const response = await Adpost.findAll()
-      const filteredAdpost = await response.filter(ad=> !ad.delete)
-      const adpostList = filteredAdpost.map(ad=> ({
-        id: ad.id,
-        name: ad.name,
-        description: ad.description
-      }))
-      return adpostList
-    } catch(error) {
-      console.error(error)
-      return { message: 'Ocurrió un error al buscar los avisos' }
-    }
-  },
-  //Devuelve todos los avisos de un determinado servicio
-  getAdpostFilterByService: async(serviceId)=>{
-    try {
-      const adposts = await Adpost.findAll({
-        where: { ServiceId: serviceId },
-        include: [Services],
-      });  
-      return adposts;
-    } catch (error) {
-      console.error(error);
-      return {message :'Ocurrió un error al buscar los Adpost del servicio'};
+      return { message: 'Ocurrió un error al buscar un servicio por ID' } 
     }
   }
 }

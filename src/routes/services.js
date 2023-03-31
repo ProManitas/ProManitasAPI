@@ -11,15 +11,15 @@ const { postServices, newAdpost } = require('../controllers/controlerPost');
 router.get('/', async (req, res) => {
     res.status(200).send({
         message: 'All Services',
-        data: [...await getServices(), ...DB]
-    });
+        data: await getServices()
+    }); 
 });
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     res.status(200).send({
-        message: `Service id: ${id}`,
-        data:[...await getServiceId(id), ...DB.filter(e => e.id == id )]
+        message: `Services id: ${id}`,
+        data: await getServiceId(id)
     });
 });
 
