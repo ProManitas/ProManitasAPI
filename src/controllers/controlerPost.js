@@ -2,6 +2,7 @@
 const { User, Services, Adpost, Rating } = require('../db');
 const fakeDb = require('../MOCK_DATA_SERVICES.json')
 const fakeDbUsers = require('../MOCK_DATA_USERS.json')
+const fakeDbAdpost = require('../MOCK_DATA_ADPOST.json')
 
 //CREATE NEW USER
 const signUp = async (username, firstname, lastname, email, password, cellnumber, address, image) => {
@@ -66,6 +67,10 @@ const newAdpost = async (name, description, /* service, username */) =>{
         fakeDb.map(e => Services.create({name : e.name}));
     };
 
+    const filledDbAdpost = async () =>{
+        fakeDbAdpost.map(post => Adpost.create({name : post.name, description: post.description}));
+    };
+
     const filledDbUsers = async () =>{
         fakeDbUsers.map(e => User.create({
             username: e.username,
@@ -89,5 +94,6 @@ module.exports ={
     postServices,
     newAdpost,
     filledDbServices,
-    filledDbUsers
+    filledDbUsers,
+    filledDbAdpost
 }
