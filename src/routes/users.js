@@ -63,5 +63,7 @@ router.post('/signUp', validatorSignIn(), async (req, res) => {
         data: signing
     });
 });
+//-----------------------PUT
+router.put('/:id', controlerPut.updateUser);
 
 module.exports = router;
