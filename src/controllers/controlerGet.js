@@ -104,7 +104,8 @@ module.exports = {
       const adpostsList =  response.map(post => ({
         id: post.id,
         name: post.name,
-        description: post.description
+        description: post.description,
+        userId: post.UserId
       }));
 
       return adpostsList;
