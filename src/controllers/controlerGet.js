@@ -13,10 +13,9 @@ const UserProperties = user => ({
   image: user.image
 });
 
-module.exports = {
 //----------------------------------USERS-------------------------
   //Devuelve todos los usuarios (Excepto los que pasaron por el borrado logico)
-  getUsers: async () => {
+  getUsers = async () => {
     try {
       const response = await User.findAll();
       const filteredUsers = response.filter(u => !u.deleted);
@@ -28,7 +27,7 @@ module.exports = {
     };
   },
   //Devuelve todos los usuarios que no hayan realizado posteos
-  getUsersWithoutRole: async () => {
+  getUsersWithoutRole = async () => {
     try {
       const response = await User.findAll();
       const filteredUsers = response.filter(u => !u.deleted && !u.role);
@@ -40,7 +39,7 @@ module.exports = {
     };
   },
   //Devuelve todos los usuarios que hayan realizados posteos
-  getUsersWithRole: async () => {
+  getUsersWithRole = async () => {
     try {
       const response = await User.findAll();
       const filteredUsers = response.filter(u => !u.deleted && u.role);
@@ -52,7 +51,7 @@ module.exports = {
     };
   },
   //Devuelve un usuario determinado por ID
-  getUserId: async (id) => {
+  getUserId = async (id) => {
     try {
       const response = await User.findAll();
       const user = response.find(user => user.id == id);
@@ -66,7 +65,7 @@ module.exports = {
   },
 //---------------------------------------------SERVICES-----------------------------
   //Devuelve todos los Servicios
-  getServices: async () => {
+  getServices = async () => {
     try {
       const response = await Services.findAll();
       const serviceList = response.map(service => ({
@@ -81,7 +80,7 @@ module.exports = {
     };
   },
   //Devuelve un determinado servicio 
-  getServiceId: async (id) => {
+  getServiceId = async (id) => {
     try {
       const response = await Services.findAll();
       const service = response.find(service => service.id == id);
@@ -97,7 +96,7 @@ module.exports = {
   },
 //------------------------------------------ADPOSTS-----------------------
   //Devuelve todos los posteos
-  getAdposts: async () => {
+  getAdposts = async () => {
     try {
       const response = await Adpost.findAll();
       
@@ -115,4 +114,13 @@ module.exports = {
       return { message: 'Ocurrio un error al buscar los posteos' };
     };
   },
+
+module.exports = {
+  getUsers,
+  getUserId,
+  getAdposts,
+  getServices,
+  getServiceId,
+  getUsersWithRole,
+  getUsersWithoutRole
 };

@@ -4,7 +4,7 @@ const router = Router();
 //CONTROLLERS
 const { getUsers, getUserId, getUsersWithRole, getUsersWithoutRole } = require('../controllers/controlerGet');
 const {signUp} = require('../controllers/controlerPost')
-const controlerPut = require('../controllers/controlerPut')
+const {updateUser} = require('../controllers/controlerPut')
 //MIDDLEWARES
 const { validationID, validatorSignIn } = require('../middleware/index.js');
 
@@ -65,6 +65,6 @@ router.post('/signUp', validatorSignIn(), async (req, res) => {
     });
 });
 //-----------------------PUT
-router.put('/:id', controlerPut.updateUser);
+router.put('/:id', updateUser);
 
 module.exports = router;
