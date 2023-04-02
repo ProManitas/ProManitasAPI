@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -L",
-    "test": "mocha"
+    "test": "mocha -w ./test/*.spec.js"
   },
   "keywords": [],
   "author": "",
