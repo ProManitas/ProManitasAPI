@@ -17,10 +17,10 @@ router.get('/', async (req , res) => {
 //----------------POST
 //CREATE NEW ADPOST
 router.post('/', async (req, res) =>{
-    const { name, description, /* service, username */ } = req.body
+    const { name, description, username, service} = req.body
     res.status(201).send({
         message: 'Su anuncio se ha posteado correctamente',
-        data: await newAdpost(name, description, /* service, username */)
+        data: await newAdpost(name, description,  username, service)
     });
 });
 
