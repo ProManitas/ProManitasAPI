@@ -4,6 +4,7 @@ const fakeDb = require('../MOCK_DATA_SERVICES.json')
 const fakeDbUsers = require('../MOCK_DATA_USERS.json')
 const fakeDbAdpost = require('../MOCK_DATA_ADPOST.json')
 
+//-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
     const {username, firstname, lastname, email, password, cellnumber, address, image, service, role} = req.body;
@@ -33,6 +34,7 @@ const signUp = async (req, res) => {
     };
 };
 
+//---------------------------------SERVICES
 //CREATE NEW SERVICE
 const postServices = async (req, res) =>{
     const { name } = req.body
@@ -48,6 +50,7 @@ const postServices = async (req, res) =>{
     };
 };
 
+//------------------------------------------ADPOSTS
 //CREATE NEW POST
 const newAdpost = async (req, res) =>{
     const { name, description, username, service} = req.body

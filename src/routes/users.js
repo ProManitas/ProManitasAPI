@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
         const { role } = req.query
 
         if( role == 'true' ){
-            console.log(req.query);
 
             res.status(200).send({
                 message: 'User with Role',
