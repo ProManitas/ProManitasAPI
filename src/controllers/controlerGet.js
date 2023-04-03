@@ -25,7 +25,7 @@ const UserProperties = user => ({
       console.error(error);
       return { message: 'Ocurrió un error al buscar los usuarios' };
     };
-  },
+  }
   //Devuelve todos los usuarios que no hayan realizado posteos
   getUsersWithoutRole = async () => {
     try {
@@ -37,7 +37,7 @@ const UserProperties = user => ({
       console.error(error);
       return { message: 'Ocurrió un error al buscar los usuarios sin role' };
     };
-  },
+  }
   //Devuelve todos los usuarios que hayan realizados posteos
   getUsersWithRole = async () => {
     try {
@@ -49,71 +49,66 @@ const UserProperties = user => ({
       console.error(error);
       return { message: 'Ocurrió un error al buscar los usuarios con role' };
     };
-  },
+  }
   //Devuelve un usuario determinado por ID
-  getUserId = async (id) => {
+  getUserId = async (req, res) => {
+    const {id} = req.params
     try {
-      const response = await User.findAll();
-      const user = response.find(user => user.id == id);
-
-      return UserProperties(user);
-
+      const user = await User.findByPk(id);
+     res.status(200).send({
+      message: `Usuario con ID: ${id} ha sido encontrado`,
+      data: user
+     })
     } catch(error) {
       console.error(error);
-      return { message: 'Ocurrió un error al buscar un usuario por ID' };
+      res.status(200).send({ message: `El usuario con ID ${id} no existe` });
     };
-  },
+  }
 //---------------------------------------------SERVICES-----------------------------
   //Devuelve todos los Servicios
-  getServices = async () => {
+  getServices = async (req, res) => {
     try {
-      const response = await Services.findAll();
-      const serviceList = response.map(service => ({
-        id: service.id,
-        name: service.name,
-        image: service.image
-      }));
-      return serviceList;
+      const service = await Services.findAll();
+      res.status(200).send({
+        message: 'All Services',
+        data: await service
+    }); 
     } catch(error) {
       console.error(error);
-      return { message: 'Ocurrió un error al buscar los servicios' };
+      res.status(400).send({ message: 'Ocurrió un error al buscar los servicios' });
     };
-  },
+  }
+  
   //Devuelve un determinado servicio 
-  getServiceId = async (id) => {
+  getServiceId =  async (req, res) => {
+    const { id } = req.params;
+
     try {
-      const response = await Services.findAll();
-      const service = response.find(service => service.id == id);
-        return {
-          id: service.id,
-          name: service.name, 
-          image: service.image
-        };
+      const response = await Services.findByPk(id);
+      res.status(200).send({
+        message: `Servicio con ID: ${id} ha sido encontrado`,
+        data: await response
+    });
     } catch(error) {
       console.error(error)
-      return { message: 'Ocurrió un error al buscar un servicio por ID' } 
+      res.status(400).send({ message: 'Ocurrió un error al buscar un servicio por ID' }) 
     };
-  },
+  }
 //------------------------------------------ADPOSTS-----------------------
   //Devuelve todos los posteos
-  getAdposts = async () => {
+  getAdposts = async (req , res) => {
     try {
-      const response = await Adpost.findAll();
-      
-      const adpostsList =  response.map(post => ({
-        id: post.id,
-        name: post.name,
-        description: post.description,
-        userId: post.UserId
-      }));
+      const post = await Adpost.findAll();
 
-      return adpostsList;
-
+      res.status(200).send({
+        mesagge: 'All Adposts',
+        data: await post
+    });
     } catch (error) {
       console.log(error);
-      return { message: 'Ocurrio un error al buscar los posteos' };
+      res.status(200).send({ message: 'Ocurrio un error al buscar los posteos' });
     };
-  },
+  }
 
 module.exports = {
   getUsers,

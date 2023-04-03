@@ -42,11 +42,12 @@ router.get('/', async (req, res) => {
 });
 
 //USER FOR ID
-router.get('/:id', validationID(), );
+router.get('/:id', validationID(), getUserId);
 
 //------------------------POST
 //FORM TO SIGN-IN
 router.post('/signUp', validatorSignIn(), signUp);
+
 //-----------------------PUT
 router.put('/:id', updateUser);
 
