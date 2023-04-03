@@ -26,13 +26,7 @@ router.get('/:id', async (req, res) => {
 
 //---------------POST
 //CREATE NEW SERVICE
-router.post('/', async (req, res) =>{
-    const { name } = req.body
-    res.status(201).send({
-        message: 'El servicio ' + name + ' se ha creado exitosamente',
-        data: await postServices(name)
-    });
-});
+router.post('/', postServices);
 
 
 module.exports = router

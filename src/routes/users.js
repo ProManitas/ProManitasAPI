@@ -43,27 +43,11 @@ router.get('/', async (req, res) => {
 });
 
 //USER FOR ID
-router.get('/:id', validationID(), async (req, res) => {
-    const { id } = req.params
-
-    res.status(200).send({
-        message: 'User ' + id,
-        data: await getUserId(id)
-    }); 
-});
+router.get('/:id', validationID(), );
 
 //------------------------POST
 //FORM TO SIGN-IN
-router.post('/signUp', validatorSignIn(), async (req, res) => {
-
-    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body;
-    const signing = await signUp(username, firstname, lastname, email, password, cellnumber, address, image);
-
-    res.status(201).send({
-        message: 'User ' + username + ' has been created successfully',
-        data: signing
-    });
-});
+router.post('/signUp', validatorSignIn(), signUp);
 //-----------------------PUT
 router.put('/:id', updateUser);
 
