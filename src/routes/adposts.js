@@ -7,12 +7,7 @@ const { newAdpost } = require('../controllers/controlerPost');
 
 //-------------GET
 //ALL ADPOSTS
-router.get('/', async (req , res) => {
-    res.status(200).send({
-        mesagge: 'All Adposts',
-        data: await getAdposts()
-    });
-});
+router.get('/', getAdposts);
 
 //----------------POST
 //CREATE NEW ADPOST
