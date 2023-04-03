@@ -18,7 +18,7 @@ const UserProperties = user => ({
   getUsers = async () => {
     try {
       const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.delete);
+      const filteredUsers = response.filter(u => !u.deleted);
       const userList = filteredUsers.map(UserProperties);
       return userList;
     } catch(error) {
@@ -30,7 +30,7 @@ const UserProperties = user => ({
   getUsersWithoutRole = async () => {
     try {
       const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.delete && !u.role);
+      const filteredUsers = response.filter(u => !u.deleted && !u.role);
       const userList = filteredUsers.map(UserProperties);
       return userList;
     } catch(error) {
@@ -42,7 +42,7 @@ const UserProperties = user => ({
   getUsersWithRole = async () => {
     try {
       const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.delete && u.role);
+      const filteredUsers = response.filter(u => !u.deleted && u.role);
       const userList = filteredUsers.map(UserProperties);
       return userList
     } catch(error) {
