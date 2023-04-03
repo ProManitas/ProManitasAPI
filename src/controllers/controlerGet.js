@@ -18,7 +18,7 @@ const UserProperties = user => ({
   getUsers = async () => {
     try {
       const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.deleted);
+      const filteredUsers = response.filter(u => !u.delete);
       const userList = filteredUsers.map(UserProperties);
       return userList;
     } catch(error) {
@@ -30,7 +30,7 @@ const UserProperties = user => ({
   getUsersWithoutRole = async () => {
     try {
       const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.deleted && !u.role);
+      const filteredUsers = response.filter(u => !u.delete && !u.role);
       const userList = filteredUsers.map(UserProperties);
       return userList;
     } catch(error) {
@@ -42,7 +42,7 @@ const UserProperties = user => ({
   getUsersWithRole = async () => {
     try {
       const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.deleted && u.role);
+      const filteredUsers = response.filter(u => !u.delete && u.role);
       const userList = filteredUsers.map(UserProperties);
       return userList
     } catch(error) {
@@ -54,7 +54,7 @@ const UserProperties = user => ({
   getUserId = async (req, res) => {
     const {id} = req.params
     try {
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(id, {attributes: ['username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'role', 'experience']});
      res.status(200).send({
       message: `Usuario con ID: ${id} ha sido encontrado`,
       data: user
@@ -98,7 +98,7 @@ const UserProperties = user => ({
   //Devuelve todos los posteos
   getAdposts = async (req , res) => {
     try {
-      const post = await Adpost.findAll();
+      const post = await Adpost.findAll({attributes: ["name", "description", "UserId", "ServiceId"]});
 
       res.status(200).send({
         mesagge: 'All Adposts',
