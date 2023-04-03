@@ -7,7 +7,9 @@ const { newAdpost } = require('../controllers/controlerPost');
 
 //-------------GET
 //ALL ADPOSTS
-router.get('/', getAdposts);
+router.get('/', (req, res) => {
+    getAdposts(req, res);
+});
 
 //----------------POST
 //CREATE NEW ADPOST

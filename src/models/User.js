@@ -53,7 +53,7 @@ module.exports = (database) =>{
             type: DataTypes.TEXT,
             allowNull: false
         },
-        delete:{
+        deleted:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             allowNull: false

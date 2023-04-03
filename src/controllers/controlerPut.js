@@ -3,7 +3,7 @@ const { User } = require('../db');
 
 updateUser = async(req,res)=> {
     const {id} = req.params;
-    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body;
+    const {username, firstname, lastname, email, password, cellnumber, address, image, deleted} = req.body;
     try {
         const userFilter = await User.findByPk(id);
     
@@ -12,7 +12,7 @@ updateUser = async(req,res)=> {
           return;
         };
         
-        const updatedUser = await userFilter.update({username, firstname, lastname, email, password, cellnumber, address, image});
+        const updatedUser = await userFilter.update({username, firstname, lastname, email, password, cellnumber, address, image, deleted});
     
         res.status(200).send({
           message: `El usuario ${username} ha sido actualizado correctamente`,
