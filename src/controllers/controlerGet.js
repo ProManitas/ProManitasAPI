@@ -1,114 +1,151 @@
 //IMPORTS
 const { sequelize, Op } = require('sequelize');
 const { Adpost, Rating, Services, User } = require('../db');
-
-const UserProperties = user => ({
-  id: user.id,
-  username: user.username,
-  firstname: user.firstname,
-  lastname: user.lastname,
-  email: user.email,
-  cellnumber: user.cellnumber,
-  address: user.address,
-  image: user.image
-});
+const { allInf, withRole, withoutRole, filterID, filterName } = require('../services/index');
 
 //----------------------------------USERS-------------------------
-  //Devuelve todos los usuarios (Excepto los que pasaron por el borrado logico)
-  getUsers = async () => {
-    try {
-      const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.deleted);
-      const userList = filteredUsers.map(UserProperties);
-      return userList;
-    } catch(error) {
-      console.error(error);
-      return { message: 'Ocurrió un error al buscar los usuarios' };
+//Devuelve todos los usuarios (Excepto los que pasaron por el borrado logico)
+const getUsers = async (req, res) => {
+
+  try {
+  //USER WITH ROLE && WITHOUT ROLE
+    if(req.query.hasOwnProperty('role')){
+
+      const { role } = req.query;
+
+      if( role == 'true' ){
+          res.status(200).send({
+              message: 'User with Role',
+              data: await withRole()
+          });
+          return;
+      };
+      if( role == 'false' ){
+          res.status(200).send({
+              message: 'User without Role',
+              data: await withoutRole()
+          });
+          return;
+      };
     };
-  }
-  //Devuelve todos los usuarios que no hayan realizado posteos
-  getUsersWithoutRole = async () => {
-    try {
-      const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.deleted && !u.role);
-      const userList = filteredUsers.map(UserProperties);
-      return userList;
-    } catch(error) {
-      console.error(error);
-      return { message: 'Ocurrió un error al buscar los usuarios sin role' };
+
+    if(req.query.hasOwnProperty('name')){
+      const { name } = req.query;
+      const response = await filterName('User', name);
+      
+      if( response[0] !== undefined ){
+        res.status(200).send({
+          message: `${name} users`,
+          data: response
+        });
+        return;
+      };
+
+      res.status(400).send({
+        message: `${name} users not found`,
+      });
+      return;
     };
-  }
-  //Devuelve todos los usuarios que hayan realizados posteos
-  getUsersWithRole = async () => {
-    try {
-      const response = await User.findAll();
-      const filteredUsers = response.filter(u => !u.deleted && u.role);
-      const userList = filteredUsers.map(UserProperties);
-      return userList
-    } catch(error) {
-      console.error(error);
-      return { message: 'Ocurrió un error al buscar los usuarios con role' };
+  
+    res.status(200).send({
+      message: 'All Users',
+      data: await allInf('User'),
+    });
+
+  } catch(error) {
+
+    console.error(error);
+    res.status(400).send({
+      message: 'Ocurrió un error al buscar los usuarios',
+      error: error.message
+    });
+
+  };
+};
+
+//Devuelve un usuario determinado por ID
+const getUserId = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    const response = await filterID('User', id);
+
+    if(response !== null ){
+      res.status(200).send({
+        message: `User with ID: ${id} found`,
+        data: response
+      });
+      return;
     };
-  }
-  //Devuelve un usuario determinado por ID
-  getUserId = async (req, res) => {
-    const {id} = req.params
-    try {
-      const user = await User.findByPk(id, {attributes: ['username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'role', 'experience']});
-     res.status(200).send({
-      message: `Usuario con ID: ${id} ha sido encontrado`,
-      data: user
-     })
-    } catch(error) {
-      console.error(error);
-      res.status(200).send({ message: `El usuario con ID ${id} no existe` });
-    };
-  }
+
+    res.status(404).send({
+      message: 'User not find',
+      data: undefined
+    });
+
+  } catch (error) {
+    res.status(500).send({
+      error: 'Internal server error',
+    });
+  };
+};
+
 //---------------------------------------------SERVICES-----------------------------
   //Devuelve todos los Servicios
-  getServices = async (req, res) => {
-    try {
-      const service = await Services.findAll();
-      res.status(200).send({
-        message: 'All Services',
-        data: await service
+const getServices = async (req, res) => {
+  try {
+    res.status(200).send({
+      message: 'All Services',
+      data: await allInf('Services')
     }); 
-    } catch(error) {
-      console.error(error);
-      res.status(400).send({ message: 'Ocurrió un error al buscar los servicios' });
-    };
-  }
+  } catch(error) {
+    console.error(error);
+    res.status(400).send({ message: 'Ocurrió un error al buscar los servicios' });
+  };
+};
   
   //Devuelve un determinado servicio 
-  getServiceId =  async (req, res) => {
-    const { id } = req.params;
-
-    try {
-      const response = await Services.findByPk(id);
-      res.status(200).send({
-        message: `Servicio con ID: ${id} ha sido encontrado`,
-        data: await response
+const getServiceId =  async (req, res) => {
+  const { id } = req.params;
+  try {
+    res.status(200).send({
+      message: `Servicio con ID: ${id} ha sido encontrado`,
+      data: await filterID('Services', id)
     });
-    } catch(error) {
-      console.error(error)
-      res.status(400).send({ message: 'Ocurrió un error al buscar un servicio por ID' }) 
-    };
-  }
+  } catch(error) {
+    console.error(error);
+    res.status(400).send({ message: 'Ocurrió un error al buscar el servicios' });
+  };
+};
+
 //------------------------------------------ADPOSTS-----------------------
   //Devuelve todos los posteos
-  getAdposts = async (req , res) => {
-    try {
-      const post = await Adpost.findAll({attributes: ["name", "description", "UserId", "ServiceId"]});
-
-      res.status(200).send({
-        mesagge: 'All Adposts',
-        data: await post
-    });
-    } catch (error) {
-      console.log(error);
-      res.status(200).send({ message: 'Ocurrio un error al buscar los posteos' });
+const getAdposts = async (req , res) => {
+  try {
+    
+    if(req.query.hasOwnProperty('name')){
+      const { name } = req.query;
+      const response = await filterName('Adpost', name);
+    
+      if( response[0] !== undefined ){
+        res.status(200).send({
+          message: `${name} users`,
+          data: response
+        });
+      return;
+      };
     };
-  }
+
+    res.status(200).send({
+      mesagge: 'All Adposts',
+      data: await allInf('Adpost')
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(200).send({ message: 'Ocurrio un error al buscar los posteos' });
+  };
+};
 
 module.exports = {
   getUsers,
@@ -116,6 +153,4 @@ module.exports = {
   getAdposts,
   getServices,
   getServiceId,
-  getUsersWithRole,
-  getUsersWithoutRole
 };
