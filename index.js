@@ -18,8 +18,40 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+//------------------------MOCK DATA----------------------------------
+const { User, Services, Adpost, Rating } = require('./src/db');
+
+const fakeDb = require('./src/MOCK_DATA_SERVICES.json');
+const fakeDbUsers = require('./src/MOCK_DATA_USERS.json');
+const fakeDbAdpost = require('./src/MOCK_DATA_ADPOST.json');
+
+const filledDbServices = async () =>{
+    fakeDb.map(e => Services.create({name : e.name}));
+};
+
+const filledDbAdpost = async () =>{
+    fakeDbAdpost.map(post => Adpost.create({name : post.name, description: post.description}));
+};
+
+const filledDbUsers = async () =>{
+    fakeDbUsers.map(e => User.create({
+        username: e.username,
+        firstname: e.firstname,
+        lastname: e.lastname, 
+        email: e.email,
+        password: e.password,
+        cellnumber: e.cellnumber,
+        address: e.address,
+        role: e.role,
+        experience: e.experience,
+        image: e.image,
+        delete: e.delete
+    }));
+};
+
+
 const server = require('./src/app.js');
-const { filledDbServices, filledDbUsers, filledDbAdpost } = require('./src/controllers/controlerPost.js');
 const { database } = require('./src/db')
 
 // SYNC MODELS
