@@ -18,7 +18,7 @@ const allInf = async (model) => {
         case 'Adpost':
             return await Adpost.findAll({
                 where: {deleted: false}, 
-                attributes: ["name", "description", "UserId", "ServiceId"]
+                attributes: ["name", "description","image", "UserId", "ServiceId"]
             });
     };
 };
@@ -58,7 +58,7 @@ const pagination = async (model, pageNumber, pageSize) => {
             limit,
             offset,
             where: {deleted: false},
-            attributes: ["name", "description", "UserId", "ServiceId"],
+            attributes: ["name", "description","image", "UserId", "ServiceId"],
             order: [['name', 'ASC']],
             });
             

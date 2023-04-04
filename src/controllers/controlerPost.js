@@ -50,9 +50,9 @@ const postServices = async (req, res) =>{
 //------------------------------------------ADPOSTS
 //CREATE NEW POST
 const newAdpost = async (req, res) =>{
-    const { name, description, username, service} = req.body
+    const { name, description, username, image, service} = req.body
     try {
-        const adpost = await Adpost.create({name, description});
+        const adpost = await Adpost.create({name, description, image});
         
         //RELATION USER AND ADPOST
         const findIdUser = await User.findOne({where : {username : username}});
