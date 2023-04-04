@@ -1,7 +1,7 @@
 //IMPORTS
 const { sequelize, Op } = require('sequelize');
 const { Adpost, Rating, Services, User } = require('../db');
-const { allInf, withRole, withoutRole, filterID, filterName } = require('../services/index');
+const { allInf, withRole, withoutRole, filterID, filterName, pagination } = require('../services/index');
 
 //----------------------------------USERS-------------------------
 //Devuelve todos los usuarios (Excepto los que pasaron por el borrado logico)
@@ -43,6 +43,28 @@ const getUsers = async (req, res) => {
 
       res.status(400).send({
         message: `${name} users not found`,
+      });
+      return;
+    };
+
+    //Paginado de los usuarios
+    if(req.query.hasOwnProperty('pageNumber') && req.query.hasOwnProperty('pageSize')){
+      const { pageNumber, pageSize } = req.query;
+      
+      const limit = parseInt(pageSize);
+
+      const pagePagination = await pagination('User',pageNumber, pageSize)
+
+      const count = await User.count();
+      const totalPages = Math.ceil(count / limit);
+  
+      res.status(200).send({
+        message: {
+          page: parseInt(pageNumber),
+          pageSize: limit, totalPages,
+          totalCount: count
+        },
+        data: pagePagination
       });
       return;
     };
@@ -134,6 +156,27 @@ const getAdposts = async (req , res) => {
         });
       return;
       };
+    };
+
+    if(req.query.hasOwnProperty('pageNumber') && req.query.hasOwnProperty('pageSize')){
+      const { pageNumber, pageSize } = req.query;
+      
+      const limit = parseInt(pageSize);
+
+      const pagePagination = await pagination('Adpost',pageNumber, pageSize)
+
+      const count = await User.count();
+      const totalPages = Math.ceil(count / limit);
+  
+      res.status(200).send({
+        message: {
+          page: parseInt(pageNumber),
+          pageSize: limit, totalPages,
+          totalCount: count
+        },
+        data: pagePagination
+      });
+      return;
     };
 
     res.status(200).send({
