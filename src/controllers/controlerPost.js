@@ -5,6 +5,7 @@ const { User, Services, Adpost, Rating } = require('../db');
 //CREATE NEW USER
 const signUp = async (req, res) => {
     const {username, firstname, lastname, email, password, cellnumber, address, image, service, role} = req.body;
+
     try {
         const sign = await User.create({
             username, 
@@ -23,7 +24,8 @@ const signUp = async (req, res) => {
         }  
         res.status(201).send({
             message: `El usuario ${username} se ha creado correctamente`,
-            data: await sign })
+            data: await sign 
+        })
     }   
      catch (error) {
         console.error(error);

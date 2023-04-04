@@ -20,8 +20,8 @@ router.get('/:id', validationID(), (req, res) => {
 
 //------------------------POST
 //FORM TO SIGN-IN
-router.post('/signUp', validatorSignIn(), (req, res) => {
-    signUp(req, res);
+router.post('/', validatorSignIn(), async (req, res) => {
+   await signUp(req, res);
 });
 
 //-----------------------PUT
