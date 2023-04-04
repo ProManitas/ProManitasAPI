@@ -13,12 +13,12 @@ server.use(morgan('dev'));
 server.use(cors({
   origin: '*'
 }));
-
-server.use('/', router)
-
 server.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin : *");
   next();
 });
+
+server.use('/', router)
+
 
 module.exports = server;
