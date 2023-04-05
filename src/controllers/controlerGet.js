@@ -190,10 +190,23 @@ const getAdposts = async (req , res) => {
   };
 };
 
+const getAdpostsId = async (req, res) =>{
+  const {id} = req.params
+  try {
+    res.status(200).send({
+      message:  `Se ha encontrado el Adpost con ID: ${id}`,
+      data: await filterID(Adpost)
+    })
+  } catch (error) {
+    
+  }
+};
+
 module.exports = {
   getUsers,
   getUserId,
   getAdposts,
   getServices,
   getServiceId,
+  getAdpostsId,
 };

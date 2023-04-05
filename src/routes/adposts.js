@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const router = Router();
 //CONTROLLERS
-const { getAdposts } = require('../controllers/controlerGet');
+const { getAdposts, getAdpostsId } = require('../controllers/controlerGet');
 const { newAdpost } = require('../controllers/controlerPost');
 
 //-------------GET
@@ -11,6 +11,9 @@ router.get('/', (req, res) => {
     getAdposts(req, res);
 });
 
+router.get('/:id', (req, res)=>{
+    getAdpostsId(req, res)
+})
 //----------------POST
 //CREATE NEW ADPOST
 router.post('/', newAdpost);
