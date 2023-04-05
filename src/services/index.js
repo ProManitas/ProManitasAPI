@@ -58,7 +58,7 @@ const pagination = async (model, pageNumber, pageSize) => {
             limit,
             offset,
             where: {deleted: false},
-            attributes: ["name", "description","image", "UserId", "ServiceId"],
+            attributes: ["id","name", "description","image", "UserId", "ServiceId"],
             order: [['name', 'ASC']],
             });
             
@@ -78,13 +78,12 @@ const filterID = async (model , id) => {
             });
 
         case 'Services':
-            return await Services.findByPk(id);    
-
-            case 'Adpost':
-                return await Adpost.findByPk(id, {where: {deleted: false},
-                    attributes: ["name", "description","image", "UserId", "ServiceId"]})
+            return await Services.findByPk(id); 
+            
+        case 'Adpost':
+            return await Adpost.findByPk(id, {where: {deleted: false},
+                attributes: ["id","name", "description","image", "UserId", "ServiceId"]})
         };
-
 };
 
 //FILTER BY NAME 
