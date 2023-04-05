@@ -18,6 +18,6 @@ server.use(cors());
 //   next();
 // });
 
-server.use('/', router)
+server.use('/', cors(), router)
 
 module.exports = server;
