@@ -78,7 +78,11 @@ const filterID = async (model , id) => {
             });
 
         case 'Services':
-            return await Services.findByPk(id);    
+            return await Services.findByPk(id); 
+            
+        case 'Adpost':
+            return await Adpost.findByPk(id, {where: {deleted: false},
+                attributes: ["id","name", "description","image", "UserId", "ServiceId"]})
         };
 };
 

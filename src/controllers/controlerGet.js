@@ -186,7 +186,7 @@ const getAdposts = async (req , res) => {
 
   } catch (error) {
     console.log(error);
-    res.status(200).send({ message: 'Ocurrio un error al buscar los posteos' });
+    res.status(400).send({ message: 'Ocurrio un error al buscar los posteos' });
   };
 };
 
@@ -198,7 +198,7 @@ const getAdpostsId = async (req, res) =>{
       data: await filterID(Adpost)
     })
   } catch (error) {
-    
+    res.status(400).send({message:  `No se ha podido encontrar el Adpost con ID: ${id}`})
   }
 };
 
