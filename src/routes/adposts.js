@@ -4,6 +4,7 @@ const router = Router();
 //CONTROLLERS
 const { getAdposts, getAdpostsId } = require('../controllers/controlerGet');
 const { newAdpost } = require('../controllers/controlerPost');
+const { updateAdpost } = require('../controllers/controlerPut');
 
 //-------------GET
 //ALL ADPOSTS
@@ -17,5 +18,9 @@ router.get('/:id', (req, res)=>{
 //----------------POST
 //CREATE NEW ADPOST
 router.post('/', newAdpost);
+
+router.put('/:id', (req, res)=>{
+    updateAdpost(req, res)
+})
 
 module.exports = router;
