@@ -18,7 +18,7 @@ const allInf = async (model) => {
         case 'Adpost':
             return await Adpost.findAll({
                 where: {deleted: false}, 
-                attributes: ["id","name", "description","image", "UserId", "ServiceId"]
+                attributes: ["id", "name", "description","image", "UserId", "ServiceId"]
             });
     };
 };
