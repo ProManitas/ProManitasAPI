@@ -18,7 +18,7 @@ const allInf = async (model) => {
         case 'Adpost':
             return await Adpost.findAll({
                 where: {deleted: false}, 
-                attributes: ["name", "description","image", "UserId", "ServiceId"]
+                attributes: ["id", "name", "description","image", "UserId", "ServiceId"]
             });
     };
 };
@@ -79,7 +79,12 @@ const filterID = async (model , id) => {
 
         case 'Services':
             return await Services.findByPk(id);    
+
+            case 'Adpost':
+                return await Adpost.findByPk(id, {where: {deleted: false},
+                    attributes: ["name", "description","image", "UserId", "ServiceId"]})
         };
+
 };
 
 //FILTER BY NAME 
