@@ -195,7 +195,7 @@ const getAdpostsId = async (req, res) =>{
   try {
     res.status(200).send({
       message:  `Se ha encontrado el Adpost con ID: ${id}`,
-      data: await filterID(Adpost)
+      data: await filterID('Adpost', id)
     })
   } catch (error) {
     res.status(400).send({message:  `No se ha podido encontrar el Adpost con ID: ${id}`})
