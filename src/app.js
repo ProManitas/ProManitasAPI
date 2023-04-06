@@ -19,22 +19,31 @@ server.use((req, res, next) => {
 });
 
 //SE NECESITAN GET DE RUTAS PROTEGIDAS DEL FRONT
-server.use(verifyJwToken)
+// server.use(verifyJwToken)
 
-server.get('/protected', async(req, res)=>{
-  try {
-    const accesToken = req.headers.authorization.split(' ')[1];
-    const response = await axios.get('misma url issuer con otra ruta con la info del usuario', {
-      headers:{
-        authorization: `viene del front ${accesToken}`
-      }
-    })
-    const userInfo = response.data
-    console.log(userInfo);
-  } catch (error) {
-    res.send(error)
-  }
-})
+// server.get('/protected', async(req, res)=>{
+//   try {
+//     const accesToken = req.headers.authorization.split(' ')[1];
+//     const response = await axios.get('misma url issuer con otra ruta con la info del usuario', {
+//       headers:{
+//         authorization: `viene del front ${accesToken}`
+//       }
+//     })
+//     const userInfo = response.data
+//     console.log(userInfo);
+//   } catch (error) {
+//     res.send(error)
+//   }
+// })
+
+// enforce on all endpoints
+app.use(jwtCheck);
+
+//SE NECESITAN GET DE RUTAS PROTEGIDAS DEL FRONT
+app.get('/authorized', function (req, res) {
+    res.send('Secured Resource');
+});
+
 
 server.use((err, req, res, next)=>{
   const status = err.status || 500
