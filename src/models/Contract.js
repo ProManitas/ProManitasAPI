@@ -18,6 +18,11 @@ module.exports = (database) =>{
         payment:{
             type: DataTypes.FLOAT,
             allowNull: false
+        },
+        deleted:{
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
 
     })

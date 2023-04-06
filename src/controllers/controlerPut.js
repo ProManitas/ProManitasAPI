@@ -1,25 +1,27 @@
 const { sequelize, Op } = require('sequelize');
 const { User, Adpost } = require('../db');
+const { filterID, allInf } = require('../services');
 
-updateUser = async(req,res)=> {
+const updateUser = async(req,res)=> {
     const {id} = req.params;
-    const {username, firstname, lastname, email, password, cellnumber, address, image, deleted} = req.body;
+    const {username, firstname, lastname, email, password, cellnumber, address, image} = req.body;
     try {
-        const userFilter = await User.findByPk(id);
+      // const findAdpost = await Adpost.findByPk(id)
+        const userFilter = await filterID('User', id);
     
         if (!userFilter) {
           res.status(404).json({ error: `Usuario no encontrado` });
           return;
         };
         
-        const updatedUser = await userFilter.update({username, firstname, lastname, email, password, cellnumber, address, image, deleted});
+        const updatedUser = await User.update({username, firstname, lastname, email, password, cellnumber, address, image}, {where: {id: id}});
     
         res.status(200).send({
           message: `El usuario ${username} ha sido actualizado correctamente`,
-          data: updatedUser});
-      } catch (err) {
-        console.error(err);
-        res.status(500).send({ message: 'Error al actualizar el usuario' });
+          data: await updatedUser
+        });
+      } catch (error) {
+        res.status(500).send({ message: 'Error al actualizar el usuario', error: error.message });
       };
 };
 
@@ -28,7 +30,7 @@ const updateAdpost = async (req, res) =>{
   const {name, description} = req.body
   try {
     const findAdpost = await Adpost.findByPk(id)
-
+    
     if (!findAdpost) {
       res.status(404).json({ error: `Adpost no encontrado` });
       return;

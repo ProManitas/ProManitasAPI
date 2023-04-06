@@ -5,6 +5,7 @@ const router = Router();
 const { getAdposts, getAdpostsId } = require('../controllers/controlerGet');
 const { newAdpost } = require('../controllers/controlerPost');
 const { updateAdpost } = require('../controllers/controlerPut');
+const { deleteAdpost } = require('../controllers/controlerDelete');
 
 //-------------GET
 //ALL ADPOSTS
@@ -21,6 +22,10 @@ router.post('/', newAdpost);
 
 router.put('/:id', (req, res)=>{
     updateAdpost(req, res)
+})
+
+router.delete('/:id', (req, res)=>{
+    deleteAdpost(req, res)
 })
 
 module.exports = router;
