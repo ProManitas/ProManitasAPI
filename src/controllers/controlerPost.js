@@ -1,5 +1,7 @@
 //IMPORTS
 const { User, Services, Adpost, Rating } = require('../db');
+const { createAccessToken } = require('../routes/login')
+const { login } = require('../services/index')
 
 //-----------------------USERS-------------
 //CREATE NEW USER
@@ -29,7 +31,7 @@ const signUp = async (req, res) => {
     }   
      catch (error) {
         console.error(error);
-        res.status(400).send({message: "El usuario no pudo ser creado"});
+        res.status(400).send({message: "El usuario no pudo ser creado", error : error.message});
     };
 };
 
@@ -45,7 +47,7 @@ const postServices = async (req, res) =>{
         });
     } catch (error) {
         console.error(error);
-         res.status(400).send({message: "El servicio no pudo ser creado"});
+         res.status(400).send({message: "El servicio no pudo ser creado", error : error.message});
     };
 };
 
@@ -74,9 +76,23 @@ const newAdpost = async (req, res) =>{
         });
     } catch (error) {
         console.error(error);
-        res.status(400).send({message: 'Su anuncio no ha podido ser posteado'});
+        res.status(400).send({message: 'Su anuncio no ha podido ser posteado', error : error.message});
     };
 };
+
+const loginUser = async (req, res) =>{
+    const { email, password } = req.body
+    try{
+        const find = await login(User, email, password)
+        const accessToken = createAccessToken(find);
+        res.status(200).send({
+            accessToken: accessToken,
+            message: 'Se ha logueado correctamente'
+        })
+    }catch(error){
+        res.status(400).send({ message : 'El correo o usuario es incorrecto', error : error.message});
+    }
+}
 
 
 //---------------------------------------------------------------------
@@ -85,4 +101,5 @@ module.exports ={
     signUp,
     postServices,
     newAdpost,
+    loginUser
 }

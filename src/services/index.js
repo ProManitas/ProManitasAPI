@@ -24,12 +24,12 @@ const allInf = async (model) => {
 };
 
 //ALL USER WITH ROLE
-const withRole = async (model) => {
+const withRole = async () => {
     return await User.findAll({where: {role: true, deleted: false}, attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience' , 'role']});
 };
 
 //ALL USER WITHOUT ROLE
-const withoutRole = async (model) => {
+const withoutRole = async () => {
     return await User.findAll({
         where: {role: false, deleted: false}, 
         attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience' , 'role']
@@ -101,6 +101,10 @@ const filterName = async (model, name) => {
     };
 };
 
+const login = async (email, password) =>{
+    return await User.findOne({where: {email : email, password : password}})
+};
+
 
 
 module.exports = {
@@ -109,5 +113,6 @@ module.exports = {
     withoutRole,
     pagination,
     filterID,
-    filterName
+    filterName,
+    login
 }
