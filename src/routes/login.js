@@ -3,7 +3,9 @@ const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const jwksRsa = require('jwks-rsa');
 const expressJwt = require('express-jwt');
-require('dotenv').config();
+const { login } = require('../services/index');
+
+
 const router = Router();
 // const { verifyToken } = require('../services/index')
 // const { loginUser } = require('../controllers/controlerPost')
@@ -41,10 +43,14 @@ const authConfig = {
   }
   
   //Ruta para la autenticación
-  router.post('/', (req, res) => {
+  router.post('/', async (req, res) => {
     const user = { email: req.body.email, password: req.body.password };
+    
+    const customer = await login(user.email, user.password)
+    
+    
     //Verificar las credenciales del usuario y crear un token de acceso
-    if (user.email === 'user@example.com' && user.password === 'password') {
+    if (customer !== null) {
       const accessToken = createAccessToken(user);
       res.json({ accessToken: accessToken });
     } else {
