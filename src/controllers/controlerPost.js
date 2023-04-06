@@ -29,7 +29,7 @@ const signUp = async (req, res) => {
     }   
      catch (error) {
         console.error(error);
-        res.status(400).send({message: "El usuario no pudo ser creado"});
+        res.status(400).send({message: "El usuario no pudo ser creado", error : error.message});
     };
 };
 
@@ -45,7 +45,7 @@ const postServices = async (req, res) =>{
         });
     } catch (error) {
         console.error(error);
-         res.status(400).send({message: "El servicio no pudo ser creado"});
+         res.status(400).send({message: "El servicio no pudo ser creado", error : error.message});
     };
 };
 
@@ -74,7 +74,7 @@ const newAdpost = async (req, res) =>{
         });
     } catch (error) {
         console.error(error);
-        res.status(400).send({message: 'Su anuncio no ha podido ser posteado'});
+        res.status(400).send({message: 'Su anuncio no ha podido ser posteado', error : error.message});
     };
 };
 
@@ -84,5 +84,5 @@ const newAdpost = async (req, res) =>{
 module.exports ={
     signUp,
     postServices,
-    newAdpost,
+    newAdpost
 }
