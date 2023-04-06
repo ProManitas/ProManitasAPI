@@ -1,7 +1,5 @@
 //IMPORTS
 const { User, Services, Adpost, Rating } = require('../db');
-const { createAccessToken } = require('../routes/login')
-const { login } = require('../services/index')
 
 //-----------------------USERS-------------
 //CREATE NEW USER
@@ -58,17 +56,17 @@ const newAdpost = async (req, res) =>{
     try {
         const adpost = await Adpost.create({name, description, image});
         
-        //RELATION USER AND ADPOST
-        const findIdUser = await User.findOne({where : {username : username}});
-        await findIdUser.addAdpost(adpost);
+//         //RELATION USER AND ADPOST
+//         const findIdUser = await User.findOne({where : {username : username}});
+//         await findIdUser.addAdpost(adpost);
 
-        //RELATION SERVICE AND ADPOST
-        const findIdService = await Services.findOne({where: {name : service}});
-        await findIdService.addAdpost(adpost);
+//         //RELATION SERVICE AND ADPOST
+//         const findIdService = await Services.findOne({where: {name : service}});
+//         await findIdService.addAdpost(adpost);
 
-        //RELATION USER AND SERVICE
-        const userServiceRelation = await Services.findOne({where: {name : service}});
-        await userServiceRelation.addUser(findIdUser)
+//         //RELATION USER AND SERVICE
+//         const userServiceRelation = await Services.findOne({where: {name : service}});
+//         await userServiceRelation.addUser(findIdUser)
 
         res.status(201).send({
             message: 'Su anuncio se ha posteado correctamente',
@@ -80,26 +78,11 @@ const newAdpost = async (req, res) =>{
     };
 };
 
-const loginUser = async (req, res) =>{
-    const { email, password } = req.body
-    try{
-        const find = await login(User, email, password)
-        const accessToken = createAccessToken(find);
-        res.status(200).send({
-            accessToken: accessToken,
-            message: 'Se ha logueado correctamente'
-        })
-    }catch(error){
-        res.status(400).send({ message : 'El correo o usuario es incorrecto', error : error.message});
-    }
-}
-
 
 //---------------------------------------------------------------------
 
 module.exports ={
     signUp,
     postServices,
-    newAdpost,
-    loginUser
+    newAdpost
 }
