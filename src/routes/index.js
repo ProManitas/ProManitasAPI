@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 });
 
 //LOGIN && SIGNIN ROUTE
-router.use('/api/v1/log', (req, res) => {
+router.use('/api/v1/login', (req, res) => {
     login(req, res)
 })
 
@@ -50,7 +50,7 @@ router.use('/api/v1/adposts', (req, res) => {
 });
 
 //PAYMENT GATEWAY ROUTE
-router.use('/api/v1/payment', (req, res)=>{
+router.use('/api/v1/checkout', (req, res)=>{
     payment(req, res);
 })
 

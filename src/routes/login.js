@@ -12,8 +12,8 @@ const router = Router();
 
 //Configurar los parámetros de Auth0
 const authConfig = {
-    domain: 'dev-ktrpfv6xelqmuqtt.us.auth0.com',
-    audience: 'BCJtyJrKUSVCnUR1arnuf2IO2B29Ymei'
+    domain: process.env.DOMAIN,
+    audience: process.env.AUDIENCE
   };
   
   //Crear un cliente para la conexión con Auth0
@@ -23,7 +23,7 @@ const authConfig = {
   
   //Función para verificar la firma del token
   function verifyToken(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization;
     const signingKey = (header, callback) => {
       client.getSigningKey(header.kid, (err, key) => {
         callback(null, key.publicKey || key.rsaPublicKey);
@@ -59,7 +59,7 @@ const authConfig = {
   });
   
   //Ruta protegida que requiere autenticación
-  router.get('/', (req, res) => {
+  router.get('/', verifyToken, (req, res) => {
     const user = { email: 'user@example.com' };
     res.json(user);
   });

@@ -8,7 +8,7 @@ require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const YOUR_DOMAIN = 'http://localhost:3000';
 
-router.post('/create-checkout-session', async (req, res) => {
+router.post('/', async (req, res) => {
     const { price } = req.body
     try {
         const session = await stripe.checkout.sessions.create({
@@ -27,6 +27,11 @@ router.post('/create-checkout-session', async (req, res) => {
       
         res.redirect(303, session.url);
     } catch (error) {
-        res.status(500).send({message: 'Ocurrio un error al procesar el pago', error: error.message})
+        res.status(500).send({
+          message: 'Ocurrio un error al procesar el pago', 
+          error: error.message
+        })
     }
 });
+
+module.exports = router

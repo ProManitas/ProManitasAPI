@@ -74,7 +74,7 @@ const filterID = async (model , id) => {
         case 'User':
             return await User.findByPk(id, {
                 where: { deleted: false }, 
-                attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience']
+                attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience', 'deleted']
             });
 
         case 'Services':
