@@ -7,6 +7,7 @@ const {signUp} = require('../controllers/controlerPost')
 const {updateUser} = require('../controllers/controlerPut')
 //MIDDLEWARES
 const { validationID, validatorSignIn } = require('../middleware/index.js');
+const { deleteUser } = require('../controllers/controlerDelete');
 
 //--------------- GET
 router.get('/', (req, res) => {
@@ -25,6 +26,11 @@ router.post('/', signUp)
 //-----------------------PUT
 router.put('/:id', (req, res) => {
     updateUser(req, res);
+});
+
+//-----------------------DELETE
+router.delete('/:id', (req, res) => {
+    deleteUser(req, res);
 });
 
 module.exports = router;
