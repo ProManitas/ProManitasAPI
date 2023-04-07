@@ -18,6 +18,8 @@ server.use(cors());
 //   next();
 // });
 
+server.use(express.urlencoded({extended : true}))
+
 server.use('/', cors(), router)
 
 module.exports = server;

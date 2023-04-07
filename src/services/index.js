@@ -105,7 +105,42 @@ const login = async (email, password) =>{
     return await User.findOne({where: {email : email, password : password}})
 };
 
+const createNew = async (model, req) => {
+    const attributes = req.body
+    switch (model) {
+        case 'User':
+        return await User.create({
+          username: attributes.username,
+          firstname: attributes.firstname,
+          lastname: attributes.lastname,
+          email: attributes.email,
+          password: attributes.password,
+          cellnumber: attributes.cellnumber,
+          address: attributes.address,
+          image: attributes.image,
+          service: attributes.service,
+          role: attributes.role,
+        });
 
+
+      case 'Services':
+        return await Services.create({
+          name: attributes.name,
+        });
+
+
+      case 'Adpost':
+        return await Adpost.create({
+          name: attributes.name,
+          description: attributes.description,
+          image: attributes.image,
+        });
+
+      default:
+        throw new Error('Modelo no válido');
+    }
+  };
+  
 
 module.exports = {
     allInf,
@@ -114,5 +149,6 @@ module.exports = {
     pagination,
     filterID,
     filterName,
-    login
+    login, 
+    createNew
 }
