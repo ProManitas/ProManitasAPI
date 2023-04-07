@@ -7,6 +7,7 @@ const AdpostModel = require('./models/Adpost.js');
 const RatingModel = require('./models/Rating.js');
 const ServicesModel = require('./models/Services.js');
 const UserModel = require('./models/User.js');
+const ContractModel = require('./models/Contract.js')
 
 //CONN DB POSTGRESQL
 const database = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB}`, {
@@ -19,6 +20,7 @@ AdpostModel(database);
 RatingModel(database);
 ServicesModel(database);
 UserModel(database);
+ContractModel(database)
 
 //RELATIONS MODELS
 const { Adpost, Rating, Services, User} = database.models;

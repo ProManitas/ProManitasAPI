@@ -1,23 +1,15 @@
 //IMPORTS
 const { User, Services, Adpost, Rating } = require('../db');
+const { createNew } = require('../services');
 
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
-    const {username, firstname, lastname, email, password, cellnumber, address, image, service, role} = req.body;
+    const {username, service} = req.body;
 
     try {
-        const sign = await User.create({
-            username, 
-            firstname, 
-            lastname, 
-            email, 
-            password,  //NO OLVIDAR SI HAY QUE COLOCAR EXPERIENCIA O NO
-            cellnumber, 
-            address, 
-            image,
-            role
-        });
+        const sign = await createNew('User', req)
+
         if(req.body.hasOwnProperty('role')){
             const userServiceRelation = await Services.findOne({where: {name : service}});
             await userServiceRelation.addUser(sign)
@@ -29,32 +21,30 @@ const signUp = async (req, res) => {
     }   
      catch (error) {
         console.error(error);
-        res.status(400).send({message: "El usuario no pudo ser creado", error : error.message});
+        res.status(400).send({message: "El usuario no pudo ser creado", error: error.message});
     };
 };
 
 //---------------------------------SERVICES
 //CREATE NEW SERVICE
 const postServices = async (req, res) =>{
-    const { name } = req.body
     try {
-        const newService = await Services.create({name});
         res.status(201).send({
-            message: `El servicio ${name} se ha creado exitosamente`,
-            data: await newService
+            message: `El servicio se ha creado exitosamente`,
+            data: await createNew('Services', req)
         });
     } catch (error) {
         console.error(error);
-         res.status(400).send({message: "El servicio no pudo ser creado", error : error.message});
+         res.status(400).send({message: "El servicio no pudo ser creado", error: error.message});
     };
 };
 
 //------------------------------------------ADPOSTS
 //CREATE NEW POST
 const newAdpost = async (req, res) =>{
-    const { name, description, username, image, service} = req.body
+    const { username, service} = req.body
     try {
-        const adpost = await Adpost.create({name, description, image});
+        const adpost = await createNew('Adpost', req)
         
         //RELATION USER AND ADPOST
         const findIdUser = await User.findOne({where : {username : username}});
@@ -74,7 +64,7 @@ const newAdpost = async (req, res) =>{
         });
     } catch (error) {
         console.error(error);
-        res.status(400).send({message: 'Su anuncio no ha podido ser posteado', error : error.message});
+        res.status(400).send({message: 'Su anuncio no ha podido ser posteado', error: error.message});
     };
 };
 
@@ -84,5 +74,5 @@ const newAdpost = async (req, res) =>{
 module.exports ={
     signUp,
     postServices,
-    newAdpost
+    newAdpost,
 }
