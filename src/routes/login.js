@@ -40,7 +40,7 @@ const authConfig = {
   //Función para crear un token de acceso
   function createAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60m' });
-  }
+  };
   
   //Ruta para la autenticación
   router.post('/', async (req, res) => {

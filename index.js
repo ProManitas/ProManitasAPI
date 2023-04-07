@@ -27,11 +27,11 @@ const fakeDbUsers = require('./src/MOCK_DATA_USERS.json');
 const fakeDbAdpost = require('./src/MOCK_DATA_ADPOST.json');
 
 const filledDbServices = async () =>{
-    fakeDb.map(e => Services.create({name : e.name}));
+    fakeDb.map(e => Services.create({name : e.name, image:e.image }));
 };
 
 const filledDbAdpost = async () =>{
-    fakeDbAdpost.map(post => Adpost.create({name : post.name, description: post.description}));
+    fakeDbAdpost.map(post => Adpost.create({name : post.name, description: post.description, image: post.image}));
 };
 
 const filledDbUsers = async () =>{

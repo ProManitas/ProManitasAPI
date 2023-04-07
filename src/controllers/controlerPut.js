@@ -3,7 +3,7 @@ const { User, Adpost } = require('../db');
 
 updateUser = async(req,res)=> {
     const {id} = req.params;
-    const {username, firstname, lastname, email, password, cellnumber, address, image, deleted} = req.body;
+    const { username, firstname, lastname, email, password, cellnumber, address, image } = req.body;
     try {
         const userFilter = await User.findByPk(id);
     
@@ -12,14 +12,17 @@ updateUser = async(req,res)=> {
           return;
         };
         
-        const updatedUser = await userFilter.update({username, firstname, lastname, email, password, cellnumber, address, image, deleted});
+        const updatedUser = await userFilter.update({ username, firstname, lastname, email, password, cellnumber, address, image });
     
         res.status(200).send({
           message: `El usuario ${username} ha sido actualizado correctamente`,
           data: updatedUser});
       } catch (err) {
         console.error(err);
-        res.status(500).send({ message: 'Error al actualizar el usuario' });
+        res.status(500).send({ 
+          message: 'Error al actualizar el usuario',
+          error : err.message
+         });
       };
 };
 

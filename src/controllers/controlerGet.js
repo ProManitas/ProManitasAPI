@@ -42,12 +42,12 @@ const getUsers = async (req, res) => {
       };
 
       res.status(400).send({
-        message: `${name} users not found`,
+        error: `${name} users not found`,
       });
       return;
     };
 
-    //Paginado de los usuarios
+    //PAGINATION 
     if(req.query.hasOwnProperty('pageNumber') && req.query.hasOwnProperty('pageSize')){
       const { pageNumber, pageSize } = req.query;
       
