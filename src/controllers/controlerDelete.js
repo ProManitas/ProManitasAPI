@@ -1,17 +1,11 @@
 const { User, Adpost } = require('../db');
-const { filterID } = require('../services');
+const { filterID, deleteFromModel } = require('../services');
 
 
 const deleteUser = async (req, res) =>{
     const { id } = req.params
     try {
-        const find = await filterID('User', id)
-        if(!find){
-            res.status(400).send({message: `El usuario con ID: ${id} no existe`})
-            return
-        }
-
-        const response = await User.update({deleted: true}, {where : {id : id}})
+        const response = await deleteFromModel(User, id)
 
         res.status(200).send({
             message: `El usuario ${id} se ha eliminado correctamente`,
@@ -25,12 +19,7 @@ const deleteUser = async (req, res) =>{
 const deleteAdpost = async (req, res) =>{
     const { id } = req.params
     try {
-        const findPost = await filterID('Adpost', id)
-        if(!findPost){
-            res.status(400).send({message: `El anuncio con ID: ${id} no existe`})
-            return
-        }
-        const response = await Adpost.update({deleted: true}, {where: {id: id}})
+        const response = await deleteFromModel(Adpost, id)
 
         res.status(200).send({
             message: `El usuario ${id} se ha eliminado correctamente`,

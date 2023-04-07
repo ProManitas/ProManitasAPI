@@ -20,6 +20,9 @@ const allInf = async (model) => {
                 where: {deleted: false}, 
                 attributes: ["id", "name", "description","image", "UserId", "ServiceId"]
             });
+
+        default:
+            throw new Error('Modelo no válido');
     };
 };
 
@@ -63,7 +66,8 @@ const pagination = async (model, pageNumber, pageSize) => {
             });
             
         default:
-            break;
+            throw new Error('Modelo no válido');
+            
     };
 };
 
@@ -74,7 +78,7 @@ const filterID = async (model , id) => {
         case 'User':
             return await User.findByPk(id, {
                 where: { deleted: false }, 
-                attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience', 'deleted']
+                attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience', 'role']
             });
 
         case 'Services':
@@ -83,7 +87,11 @@ const filterID = async (model , id) => {
         case 'Adpost':
             return await Adpost.findByPk(id, {where: {deleted: false},
                 attributes: ["id","name", "description","image", "UserId", "ServiceId"]})
+        
+        default:
+            throw new Error('Modelo no válido');
         };
+
 };
 
 //FILTER BY NAME 
@@ -98,6 +106,10 @@ const filterName = async (model, name) => {
             return await Adpost.findAll({
                 where: { name: { [Op.like]: `%${name}%`}}
             });
+
+        default:
+            throw new Error('Modelo no válido');
+            
     };
 };
 
@@ -105,6 +117,7 @@ const login = async (email, password) =>{
     return await User.findOne({where: {email : email, password : password}})
 };
 
+//CREATE NEW USERS, NEW POSTS & NEW SERVICES
 const createNew = async (model, req) => {
     const attributes = req.body
     switch (model) {
@@ -140,7 +153,59 @@ const createNew = async (model, req) => {
         throw new Error('Modelo no válido');
     }
   };
+
+  //DELETE 
+  const deleteFromModel = async (model, id) => {
+
+    const find = await model.findOne({ where: { id } });
+
+  if (!find) {
+    throw new Error(`No se encontró ningún registro con el id ${id}`);
+  }
+  switch (model) {
+    case User:
+    return await User.update({deleted: true}, {where: {id: id}});
+
+    case Adpost:          
+    return await Adpost.update({deleted: true}, {where: {id: id}})
+
+    default:
+        throw new Error('Modelo no válido')
+  }
+};
   
+//UPDATE
+const updateModel = async (model, id, req) => {
+
+    const find = await model.findOne({ where: { id } });
+
+    if (!find) {
+      throw new Error(`No se encontró ningún registro con el id ${id}`);
+    }
+    const attributes = req.body
+    switch (model) {
+      case User:
+        return await User.update({
+          username: attributes.username,
+          firstname: attributes.firstname,
+          lastname: attributes.lastname,
+          email: attributes.email,
+          password: attributes.password,
+          cellnumber: attributes.cellnumber,
+          address: attributes.address,
+          image: attributes.image
+        }, { where: { id: id } });
+       
+      case Adpost:
+        return await Adpost.update({
+          name: attributes.name,
+          description: attributes.description
+        }, { where: { id: id } });
+       
+      default:
+        throw new Error('Modelo no válido');
+    }
+  }
 
 module.exports = {
     allInf,
@@ -150,5 +215,7 @@ module.exports = {
     filterID,
     filterName,
     login, 
-    createNew
+    createNew,
+    deleteFromModel,
+    updateModel
 }
