@@ -50,7 +50,7 @@ router.use('/api/v1/adposts', (req, res) => {
 });
 
 //PAYMENT GATEWAY ROUTE
-router.use('/api/v1/checkout', (req, res)=>{
+router.use('/api/v1/payment', (req, res)=>{
     payment(req, res);
 })
 
