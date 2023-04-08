@@ -7,13 +7,14 @@ module.exports = (database) =>{
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        commencement_date:{
+        commencementDate:{
             type: DataTypes.DATE,
             allowNull: false
         },
-        termination_date:{
+        terminationDate:{
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            defaultValue: new Date(new Date().getFullYear() + 1, 0, 1) // Establece el primer día del año siguiente como valor por defecto
         },
         payment:{
             type: DataTypes.FLOAT,

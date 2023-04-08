@@ -23,7 +23,7 @@ UserModel(database);
 ContractModel(database)
 
 //RELATIONS MODELS
-const { Adpost, Rating, Services, User} = database.models;
+const { Adpost, Rating, Services, User, Contract} = database.models;
 
 //RELATIONS USERS
 User.hasMany(Adpost);
@@ -48,6 +48,10 @@ Services.belongsToMany(User, {through: 'UserServices', timestamps: false});
 //RELATION USER && ADPOSTS
 User.belongsToMany(Adpost, {through: 'FinishedService'});
 Adpost.belongsToMany(User, {through: 'FinishedService'});
+
+//RELATION USER && CONTRACT
+User.hasMany(Contract);
+Contract.belongsTo(User);
 
 module.exports = {
     ...database.models, 

@@ -1,7 +1,6 @@
 //IMPORTS
 const { Op } = require('sequelize');
-const { Adpost, Rating, Services, User } = require('../db');
-
+const { Adpost, Rating, Services, User, Contract } = require('../db');
 //ALL USERS
 const allInf = async (model) => {
     
@@ -149,6 +148,12 @@ const createNew = async (model, req) => {
           image: attributes.image,
         });
 
+      case 'Contract':
+        return await Contract.create({
+          commencementDate : new Date(),
+          terminationDate: req.body.terminationDate,
+          payment : req.body.amount
+        })
       default:
         throw new Error('Modelo no válido');
     }
