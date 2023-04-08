@@ -20,6 +20,9 @@ const allInf = async (model) => {
                 attributes: ["id", "name", "description","image", "UserId", "ServiceId"]
             });
 
+        case 'Contract':
+          return await Contract.findAll({attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'UserId']})
+
         default:
             throw new Error('Modelo no válido');
     };
@@ -87,6 +90,9 @@ const filterID = async (model , id) => {
             return await Adpost.findByPk(id, {where: {deleted: false},
                 attributes: ["id","name", "description","image", "UserId", "ServiceId"]})
         
+        case 'Contract':
+          return await Contract.findByPk(id, {attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'UserId']})
+        
         default:
             throw new Error('Modelo no válido');
         };
@@ -151,7 +157,6 @@ const createNew = async (model, req) => {
       case 'Contract':
         return await Contract.create({
           commencementDate : new Date(),
-          terminationDate: req.body.terminationDate,
           payment : req.body.amount
         })
       default:

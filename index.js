@@ -20,19 +20,28 @@
 
 
 //------------------------MOCK DATA----------------------------------
-const { User, Services, Adpost, Rating } = require('./src/db');
+const { User, Services, Adpost, Rating, Contract } = require('./src/db');
 
 const fakeDb = require('./src/MOCK_DATA_SERVICES.json');
 const fakeDbUsers = require('./src/MOCK_DATA_USERS.json');
 const fakeDbAdpost = require('./src/MOCK_DATA_ADPOST.json');
+const fakeDbContracts = require('./src/MOCK_DATA_CONTRACTS.json')
 
-const filledDbServices = async () =>{
+const filledDbServices = async () =>{ 
     fakeDb.map(e => Services.create({name : e.name, image:e.image }));
 };
 
 const filledDbAdpost = async () =>{
     fakeDbAdpost.map(post => Adpost.create({name : post.name, description: post.description, image: post.image}));
 };
+
+const filledContracts = async () =>{    
+    fakeDbContracts.map(post => Contract.create({
+        commencementDate: post.commencementDate, 
+        terminationDate: post.terminationDate,
+        payment: post.payment
+    }))
+}
 
 const filledDbUsers = async () =>{
     fakeDbUsers.map(e => User.create({
@@ -52,7 +61,7 @@ const filledDbUsers = async () =>{
 
 
 const server = require('./src/app.js');
-const { database } = require('./src/db')
+const { database } = require('./src/db');
 
 // SYNC MODELS
 database.sync({ force: true })
@@ -61,6 +70,7 @@ database.sync({ force: true })
             filledDbUsers() 
             filledDbServices()
             filledDbAdpost()
+            filledContracts()
             console.log('Listening at' + ' ' + 3001)
         });
     });
