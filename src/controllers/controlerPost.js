@@ -2,12 +2,42 @@
 const { User, Services, Adpost, Rating } = require('../db');
 const { createNew } = require('../services');
 
+//---------------------CLODINARY SERVICES
+const cloudinary = require('cloudinary').v2;
+
+
+// Configuration 
+cloudinary.config({
+  cloud_name: "dhlvgmhea",
+  api_key: "356675385545593",
+  api_secret: "Qx7_iufQ__cmCBx9FY40JqVP1S4"
+});
+
+
+
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
     const {username, service} = req.body;
-
     try {
+        const userImage = 'userImage'
+        const uploadImage = cloudinary.uploader.upload(req.body.image, {public_id: userImage})
+
+            uploadImage.then((data) => {
+                console.log(data);
+                console.log(data.secure_url);
+                }).catch((err) => {
+                    console.log(err);
+            });
+
+
+            // Generate 
+            const image = cloudinary.url(userImage, {
+                width: 200,
+                height: 200,
+                Crop: 'fill'
+            });
+    
         const sign = await createNew('User', req)
 
         if(req.body.hasOwnProperty('role')){
