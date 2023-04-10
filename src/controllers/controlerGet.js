@@ -15,14 +15,14 @@ const getUsers = async (req, res) => {
 
       if( role == 'true' ){
           res.status(200).send({
-              message: 'User with Role',
+              message: 'Usuarios con role',
               data: await withRole()
           });
           return;
       };
       if( role == 'false' ){
           res.status(200).send({
-              message: 'User without Role',
+              message: 'Usuarios sin role',
               data: await withoutRole()
           });
           return;
@@ -35,14 +35,14 @@ const getUsers = async (req, res) => {
       
       if( response[0] !== undefined ){
         res.status(200).send({
-          message: `${name} users`,
+          message: `Usuarios ${name}`,
           data: response
         });
         return;
       };
 
       res.status(400).send({
-        error: `${name} users not found`,
+        error: `No se encontro el usuario ${name} `,
       });
       return;
     };
@@ -70,7 +70,7 @@ const getUsers = async (req, res) => {
     };
   
     res.status(200).send({
-      message: 'All Users',
+      message: 'Todos los usuarios',
       data: await allInf('User'),
     });
 
@@ -94,14 +94,14 @@ const getUserId = async (req, res) => {
 
     if(response !== null ){
       res.status(200).send({
-        message: `User with ID: ${id} found`,
+        message: `Se encontró el usuario con ID: ${id}`,
         data: response
       });
       return;
     };
 
     res.status(404).send({
-      message: 'User not find',
+      message: `No se encontro el usuario con ID: ${id}`,
       data: undefined
     });
 
@@ -117,7 +117,7 @@ const getUserId = async (req, res) => {
 const getServices = async (req, res) => {
   try {
     res.status(200).send({
-      message: 'All Services',
+      message: 'Todos los servicios',
       data: await allInf('Services')
     }); 
   } catch(error) {
@@ -180,7 +180,7 @@ const getAdposts = async (req , res) => {
     };
 
     res.status(200).send({
-      mesagge: 'All Adposts',
+      mesagge: 'Todos los Adposts',
       data: await allInf('Adpost')
     });
 
@@ -202,6 +202,31 @@ const getAdpostsId = async (req, res) =>{
   }
 };
 
+//------------------------------------->Contracts-----------------------------
+const getContracts = async (req, res) =>{
+  try {
+    res.status(200).send({
+      message: 'Todos los contratos',
+      data: await allInf('Contract')
+    })
+  } catch (error) {
+    res.status(400).send({message: 'Ocurrió un error al buscar los contratos', error: error.message})
+  }
+}
+
+const getContractId = async (req, res) =>{
+  const { id } = req.params
+  try {
+    res.status(200).send({
+      message : `Contrato ${id}`,
+      data: await filterID('Contract', id)
+    })
+  } catch (error) {
+    res.status(400).send({message: `No se encontro el contrato con ID: ${id}`})
+  }
+}
+
+
 module.exports = {
   getUsers,
   getUserId,
@@ -209,4 +234,6 @@ module.exports = {
   getServices,
   getServiceId,
   getAdpostsId,
+  getContracts,
+  getContractId
 };
