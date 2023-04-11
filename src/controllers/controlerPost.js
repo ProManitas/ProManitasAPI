@@ -1,18 +1,6 @@
 //IMPORTS
 const { User, Services, Adpost, Rating } = require('../db');
-const { createNew } = require('../services');
-
-//---------------------CLODINARY SERVICES
-const cloudinary = require('cloudinary').v2;
-
-
-// Configuration 
-cloudinary.config({
-  cloud_name: "dhlvgmhea",
-  api_key: "356675385545593",
-  api_secret: "Qx7_iufQ__cmCBx9FY40JqVP1S4"
-});
-
+const { createNew, addImage } = require('../services');
 
 
 //-----------------------USERS-------------
@@ -20,25 +8,10 @@ cloudinary.config({
 const signUp = async (req, res) => {
     const {username, service} = req.body;
     try {
-        const userImage = 'userImage'
-        const uploadImage = cloudinary.uploader.upload(req.body.image, {public_id: userImage})
-
-            uploadImage.then((data) => {
-                console.log(data);
-                console.log(data.secure_url);
-                }).catch((err) => {
-                    console.log(err);
-            });
-
-
-            // Generate 
-            const image = cloudinary.url(userImage, {
-                width: 200,
-                height: 200,
-                Crop: 'fill'
-            });
-    
+        
         const sign = await createNew('User', req)
+
+        await addImage('User', req, username)
 
         if(req.body.hasOwnProperty('role')){
             const userServiceRelation = await Services.findOne({where: {name : service}});
@@ -46,8 +19,10 @@ const signUp = async (req, res) => {
         }  
         res.status(201).send({
             message: `El usuario ${username} se ha creado correctamente`,
-            data: await sign 
-        })
+            data: await User.findOne({ 
+                where: { username },
+                attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience', 'role'] })
+        });
     }   
      catch (error) {
         console.error(error);
@@ -59,6 +34,7 @@ const signUp = async (req, res) => {
 //CREATE NEW SERVICE
 const postServices = async (req, res) =>{
     try {
+
         res.status(201).send({
             message: `El servicio se ha creado exitosamente`,
             data: await createNew('Services', req)
@@ -72,9 +48,10 @@ const postServices = async (req, res) =>{
 //------------------------------------------ADPOSTS
 //CREATE NEW POST
 const newAdpost = async (req, res) =>{
-    const { username, service} = req.body
+    const { username, service, name} = req.body
     try {
         const adpost = await createNew('Adpost', req)
+        await addImage('Adposts', req, name)
         
         //RELATION USER AND ADPOST
         const findIdUser = await User.findOne({where : {username : username}});
@@ -90,7 +67,9 @@ const newAdpost = async (req, res) =>{
 
         res.status(201).send({
             message: 'Su anuncio se ha posteado correctamente',
-            data: await adpost
+            data: await Adpost.findOne({ 
+                where: { name },
+                attributes: ["id","name", "description","image", "UserId", "ServiceId"]})
         });
     } catch (error) {
         console.error(error);

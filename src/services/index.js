@@ -1,6 +1,7 @@
 //IMPORTS
 const { Op } = require('sequelize');
 const { Adpost, Rating, Services, User, Contract } = require('../db');
+const cloudinary = require('cloudinary').v2;
 //ALL USERS
 const allInf = async (model) => {
     
@@ -214,8 +215,51 @@ const updateModel = async (model, id, req) => {
        
       default:
         throw new Error('Modelo no válido');
-    }
-  }
+    };
+  };
+
+//ADD IMAGE
+const addImage = async (model, req, username) => {
+
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+  });
+
+  const arr = [];
+
+  for(i = 0 ; i < req.body.username.length ; i++){
+    arr.push(req.body.username[i].charCodeAt())
+  };
+
+  const hashUrl = arr.toString().replace(/,/g, "");
+  
+  const uploadImage = cloudinary.uploader.upload(req.body.image, {public_id: hashUrl})
+
+  // Generate 
+  const Url = cloudinary.url(hashUrl, {
+      width: 200,
+      height: 200,
+      Crop: 'fill'
+  });
+
+  switch (model) {
+
+    case 'User':
+
+      return await User.update({
+        image: Url
+      }, { where: { username: username } });
+      
+    case 'Adposts':
+
+      return await Adpost.update({
+        image: Url
+      }, { where: { name: username } });
+  
+  };
+};
 
 module.exports = {
     allInf,
@@ -227,5 +271,6 @@ module.exports = {
     login, 
     createNew,
     deleteFromModel,
-    updateModel
+    updateModel,
+    addImage
 }
