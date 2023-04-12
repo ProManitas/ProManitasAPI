@@ -6,12 +6,12 @@ const { createNew, addImage } = require('../services');
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
-    const {username, service} = req.body;
+    const {service} = req.body;
     try {
         
         const sign = await createNew('User', req)
 
-        await addImage('User', req, username)
+        await addImage('User', req )
 
         if(req.body.hasOwnProperty('role')){
             const userServiceRelation = await Services.findOne({where: {name : service}});
@@ -48,10 +48,10 @@ const postServices = async (req, res) =>{
 //------------------------------------------ADPOSTS
 //CREATE NEW POST
 const newAdpost = async (req, res) =>{
-    const { username, service, name} = req.body
+    const { service, name} = req.body
     try {
         const adpost = await createNew('Adpost', req)
-        await addImage('Adposts', req, name)
+        await addImage('Adposts', req )
         
         //RELATION USER AND ADPOST
         const findIdUser = await User.findOne({where : {username : username}});
