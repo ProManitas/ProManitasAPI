@@ -1,5 +1,6 @@
 //IMPORTS
 const { Op } = require('sequelize');
+const fs = require('fs');
 const { Adpost, Rating, Services, User, Contract } = require('../db');
 const cloudinary = require('cloudinary').v2;
 //ALL USERS
@@ -238,11 +239,13 @@ const addImage = async (model, req ) => {
       arr.push(req.body.name[i].charCodeAt())
     };
   }
+
+  const file = fs.readFileSync(req.body.image);
   
 
   const hashUrl = arr.toString().replace(/,/g, "");
   
-  const uploadImage = cloudinary.uploader.upload(req.body.image, {public_id: hashUrl})
+  const uploadImage = cloudinary.uploader.upload(file, {public_id: hashUrl})
 
   // Generate 
   const Url = cloudinary.url(hashUrl, {
