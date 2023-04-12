@@ -6,7 +6,7 @@ const { createNew, addImage } = require('../services');
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
-    const {service} = req.body;
+    const {username, service} = req.body;
     try {
         
         const sign = await createNew('User', req)
@@ -49,7 +49,7 @@ const postServices = async (req, res) =>{
 //------------------------------------------ADPOSTS
 //CREATE NEW POST
 const newAdpost = async (req, res) =>{
-    const { service, name} = req.body
+    const {username, service, name} = req.body
     try {
         const adpost = await createNew('Adpost', req)
         await addImage('Adposts', req )

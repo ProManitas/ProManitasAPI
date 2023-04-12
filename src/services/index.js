@@ -229,9 +229,16 @@ const addImage = async (model, req ) => {
 
   const arr = [];
 
-  for(i = 0 ; i < req.body.username.length ; i++){
-    arr.push(req.body.username[i].charCodeAt())
-  };
+  if(req.body.hasOwnProperty('username')){
+    for(i = 0 ; i < req.body.username.length ; i++){
+      arr.push(req.body.username[i].charCodeAt())
+    };
+  }else{
+    for(i = 0 ; i < req.body.name.length ; i++){
+      arr.push(req.body.name[i].charCodeAt())
+    };
+  }
+  
 
   const hashUrl = arr.toString().replace(/,/g, "");
   
@@ -250,13 +257,13 @@ const addImage = async (model, req ) => {
 
       return await User.update({
         image: Url
-      }, { where: { username: username } });
+      }, { where: { username: req.body.username } });
       
     case 'Adposts':
 
       return await Adpost.update({
         image: Url
-      }, { where: { name: username } });
+      }, { where: { name: req.body.name } });
   
   };
 };
