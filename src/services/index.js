@@ -219,7 +219,7 @@ const updateModel = async (model, id, req) => {
   };
 
 //ADD IMAGE
-const addImage = async (model, req, username) => {
+const addImage = async (model, req ) => {
 
   cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
