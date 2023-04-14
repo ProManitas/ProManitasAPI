@@ -7,6 +7,7 @@ const services = require('./services.js');
 const adposts = require('./adposts.js');
 const login = require('./login.js');
 const payment = require('./payment.js')
+const contract = require('./contract.js')
 
 // router.use((req, res, next) => {
 //     const error = new Error('Not Found');
@@ -52,6 +53,11 @@ router.use('/api/v1/adposts', (req, res) => {
 //PAYMENT GATEWAY ROUTE
 router.use('/api/v1/payment', (req, res)=>{
     payment(req, res);
+})
+
+//CONTRACT ROUTE
+router.use('/api/v1/contract', (req, res)=>{
+    contract(req, res)
 })
 
 module.exports = router;
