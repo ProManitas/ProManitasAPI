@@ -8,12 +8,12 @@ const { createNew, addImage } = require('../services');
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
-    const {username, service} = req.body;
+    const {username, service, email} = req.body;
     try {
         
         const sign = await createNew('User', req)
 
-        await addImage('User', req )
+        // await addImage('User', req )
 
         if(req.body.hasOwnProperty('role')){
             const userServiceRelation = await Services.findOne({where: {name : service}});
@@ -21,11 +21,12 @@ const signUp = async (req, res) => {
         }  
                  
           const message = {
-            from: 'promanitaspf@gmail.com',
-            to: "marianafloresvnet@gmail.com",
-            subject: "Probando Mail",
+            from: 'promanitaspf@gmail.com', 
+            to: email,
+            subject: "Bienvenido a Promanitas!",
             text: "Gracias por Suscribirte a promanitas",
-          };
+            html: '<b>Bienvenido a Promanitas!!</b>',
+        };
           
           sendEmail(message)
 
