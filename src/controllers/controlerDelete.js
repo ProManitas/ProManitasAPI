@@ -1,4 +1,4 @@
-const { User, Adpost } = require('../db');
+const { User, Adpost, Contract } = require('../db');
 const { filterID, deleteFromModel } = require('../services');
 
 
@@ -32,9 +32,26 @@ const deleteAdpost = async (req, res) =>{
     }
 }
 
+const deleteContract = async (req, res) =>{
+    const { id } = req.params
+    try {
+        const response = await deleteFromModel(Contract, id)
+
+        res.status(200).send({
+            message: 'Se ha borrado correctamente el contrato',
+            data: await response
+        })
+    } catch (error) {
+        res.status(400).send({
+            message: 'Ha ocurrido un error al borra el contrato', error: error.message
+        })
+    }
+}
+
 //DELETE COMMENTS, DELETE RATING
 
 module.exports={
     deleteUser,
-    deleteAdpost
+    deleteAdpost,
+    deleteContract
 }

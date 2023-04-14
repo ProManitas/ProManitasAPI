@@ -1,10 +1,11 @@
-const { User } = require('../db');
-const { createNew } = require('../services');
+const { Contract }= require('../db');
+const { updateModel } = require('../services');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 const createStripeSession = async (req, res) => {
-  const { id, amount, description, username } = req.body;
+  // const { contractId } = req.params
+  const { id, amount, description, contractId } = req.body;
 
   try {
     const payment = await stripe.paymentIntents.create({
@@ -15,11 +16,7 @@ const createStripeSession = async (req, res) => {
       description,
     });
 
-//FALTA VER COMO MANDAN LA FECHA DE TERMINACION DEL SERVICIO  
-    const createContract = await createNew('Contract', req)
-
-    const findUser = await User.findOne({where: {username : username}})
-    await findUser.addContract(createContract)
+    const updateContract = await updateModel(Contract, contractId, req)
 
     res.status(200).json({ message: "Pago procesado exitosamente." });
   } catch (error) {

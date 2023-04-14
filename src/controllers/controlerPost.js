@@ -8,7 +8,7 @@ const { createNew, addImage } = require('../services');
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
-    const {username, service} = req.body;
+    const {username, service, email} = req.body;
     try {
         
         const sign = await createNew('User', req)
@@ -21,11 +21,12 @@ const signUp = async (req, res) => {
         }  
                  
           const message = {
-            from: 'promanitaspf@gmail.com',
-            to: "marianafloresvnet@gmail.com",
-            subject: "Probando Mail",
+            from: 'promanitaspf@gmail.com', 
+            to: email,
+            subject: "Bienvenido a Promanitas!",
             text: "Gracias por Suscribirte a promanitas",
-          };
+            html: '<b>Bienvenido a Promanitas!!</b>',
+        };
           
           sendEmail(message)
 
@@ -90,6 +91,24 @@ const newAdpost = async (req, res) =>{
     };
 };
 
+//---------------------------------CONTRACT
+//CREATE NEW CONTRACT
+const newContract = async (req, res) =>{
+    const {username} = req.body
+    try {
+        const createContract = await createNew('Contract', req)
+
+        const findUser = await User.findOne({where: {username : username}})
+        await findUser.addContract(createContract)
+
+        res.status(201).send({
+            message: 'Su Contrato se ha realizado exitosamente',
+            data: await createContract
+        })
+    } catch (error) {
+        res.status(400).send({message : 'No se pudo crear el contrato', error: error.message})
+    }
+}
 
 //---------------------------------------------------------------------
 
@@ -97,4 +116,5 @@ module.exports ={
     signUp,
     postServices,
     newAdpost,
+    newContract,
 }

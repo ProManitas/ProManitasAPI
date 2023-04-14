@@ -245,9 +245,21 @@ const deletedAdposts = async (req, res) =>{
       data: await deleteInf('Adpost')
     })
   } catch (error) {
-    res.status(400).send({message: 'Hubo un error al buscar los adpost eliminados', error: error.message})
+    res.status(400).send({message: 'Ocurrió un error al buscar los adpost eliminados', error: error.message})
   }
 }
+
+const deletedContracts = async (req, res) => {
+  try {
+    res.status(200).send({
+      message: 'Todos los Ccontratos eliminados',
+      data: await deleteInf('Contract')
+    })
+  } catch (error) {
+    res.status(400).send({message: 'Ocurrió un error al buscar los contratos eliminados', error: error.message})
+  }
+}
+
 
 module.exports = {
   getUsers,
@@ -259,5 +271,6 @@ module.exports = {
   getContracts,
   getContractId,
   deletedUsers,
-  deletedAdposts
+  deletedAdposts,
+  deletedContracts
 };

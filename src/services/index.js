@@ -22,7 +22,7 @@ const allInf = async (model) => {
             });
 
         case 'Contract':
-          return await Contract.findAll({attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'UserId']})
+          return await Contract.findAll({attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'detail', 'UserId']})
 
         default:
             throw new Error('Modelo no válido');
@@ -157,9 +157,10 @@ const createNew = async (model, req) => {
 
       case 'Contract':
         return await Contract.create({
-          commencementDate : new Date(),
-          payment : req.body.amount
+          payment : req.body.payment,
+          detail: req.body.detail
         })
+
       default:
         throw new Error('Modelo no válido');
     }
@@ -179,6 +180,9 @@ const createNew = async (model, req) => {
 
     case Adpost:          
     return await Adpost.update({deleted: true}, {where: {id: id}})
+
+    case Contract:
+       return await Contract.update({deleted: true}, {where: {id: id}})
 
     default:
         throw new Error('Modelo no válido')
@@ -212,6 +216,11 @@ const updateModel = async (model, id, req) => {
           name: attributes.name,
           description: attributes.description
         }, { where: { id: id } });
+
+      case Contract:
+        return await Contract.update({
+          payment: req.body.amount
+        }, {where: { id: id } })
        
       default:
         throw new Error('Modelo no válido');
@@ -276,6 +285,9 @@ const deleteInf = async (model) =>{
       
     case 'Adpost':
       return await Adpost.findAll({where: {deleted: true}})
+
+    case 'Contract':
+      return await Contract.findAll({where: {deleted: true}})
 
     default:
       throw new Error('Modelo no válido');

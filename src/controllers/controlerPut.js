@@ -1,6 +1,5 @@
-const { sequelize, Op } = require('sequelize');
 const { User, Adpost } = require('../db');
-const { updateModel, deleteFromModel } = require('../services');
+const { updateModel } = require('../services');
 
 updateUser = async(req,res)=> {
     const {id} = req.params;

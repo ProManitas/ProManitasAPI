@@ -9,6 +9,7 @@ module.exports = (database) =>{
         },
         commencementDate:{
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         },
         terminationDate:{
@@ -20,8 +21,13 @@ module.exports = (database) =>{
             type: DataTypes.FLOAT,
             allowNull: false
         },
-        details:{
+        detail:{
             type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: false
+        },
+        deleted:{
+            type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         }
