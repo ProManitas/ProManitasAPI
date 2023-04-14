@@ -1,7 +1,7 @@
 //IMPORTS
 const { sequelize, Op } = require('sequelize');
 const { Adpost, Rating, Services, User } = require('../db');
-const { allInf, withRole, withoutRole, filterID, filterName, pagination } = require('../services/index');
+const { allInf, withRole, withoutRole, filterID, filterName, pagination, deleteInf } = require('../services/index');
 
 //----------------------------------USERS-------------------------
 //Devuelve todos los usuarios (Excepto los que pasaron por el borrado logico)
@@ -226,6 +226,28 @@ const getContractId = async (req, res) =>{
   }
 }
 
+const deletedUsers = async(req, res) =>{
+  try {
+    res.status(200).send({
+      message : 'Todos los usuarios eliminados',
+      data: await deleteInf('User')
+    })
+  } catch (error) {
+    res.status(400).send({message: 'Hubo un error al buscar los usuarios eliminados', error: error.message})
+  }
+}
+
+
+const deletedAdposts = async (req, res) =>{
+  try {
+    res.status(200).send({
+      message : 'Todos los adposts eliminados',
+      data: await deleteInf('Adpost')
+    })
+  } catch (error) {
+    res.status(400).send({message: 'Hubo un error al buscar los adpost eliminados', error: error.message})
+  }
+}
 
 module.exports = {
   getUsers,
@@ -235,5 +257,7 @@ module.exports = {
   getServiceId,
   getAdpostsId,
   getContracts,
-  getContractId
+  getContractId,
+  deletedUsers,
+  deletedAdposts
 };

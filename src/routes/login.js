@@ -1,4 +1,5 @@
 //Importar los paquetes necesarios
+const nodemailer = require('nodemailer')
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const jwksRsa = require('jwks-rsa');
@@ -63,5 +64,37 @@ const authConfig = {
     const user = { email: 'user@example.com' };
     res.json(user);
   });
+
+//Ruta de envio de email por registro de nuevo usuario
+router.post('/welcome', async (req, res) =>{
+  try {
+    const transport = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'promanitaspf@gmail.com',
+        pass: 'hoinyhkclwgsohrz'
+      }
+    })
+  
+    var message = {
+      from: 'promanitaspf@gmail.com',
+      to: "marianafloresvnet@gmail.com",
+      subject: "Probando Mail",
+      text: "Gracias por Suscribirte a promanitas",
+    };
+  
+    
+    res.status(200).send({
+      message: 'El correo se ha enviado correctamente',
+      data : await transport.sendMail(message)
+    })
+  } catch (error) {
+    res.status(500).send({message : 'No se pudo enviar el mail', error: error.message} )
+  }
+
+})
+
 
 module.exports = router

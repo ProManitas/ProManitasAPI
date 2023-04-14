@@ -18,7 +18,8 @@ module.exports = (database) =>{
         },
         lastname:{
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            defaultValue: false
         },
         email:{
             type: DataTypes.STRING,
@@ -27,6 +28,7 @@ module.exports = (database) =>{
         },
         password:{
             type: DataTypes.STRING,
+            defaultValue: false,
             allowNull: false
         },
         //SE CAMBIO CELLNUMBER A STRING PARA QUE ACEPTARA LOS DATOS DE LA API MOCKEADA YA QUE LOS CELLNUMBER TIENEN GUIONES

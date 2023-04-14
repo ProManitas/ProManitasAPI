@@ -1,6 +1,8 @@
 //IMPORTS
 const { User, Services, Adpost, Rating } = require('../db');
+const { sendEmail } = require('../nodemailer/nodemailer');
 const { createNew, addImage } = require('../services');
+
 
 
 //-----------------------USERS-------------
@@ -17,13 +19,23 @@ const signUp = async (req, res) => {
             const userServiceRelation = await Services.findOne({where: {name : service}});
             await userServiceRelation.addUser(sign)
         }  
-        res.status(201).send({
-            message: `El usuario ${username} se ha creado correctamente`,
+                 
+          const message = {
+            from: 'promanitaspf@gmail.com',
+            to: "marianafloresvnet@gmail.com",
+            subject: "Probando Mail",
+            text: "Gracias por Suscribirte a promanitas",
+          };
+          
+          sendEmail(message)
+
+          res.status(201).send({
+              message: `El usuario ${username} se ha creado correctamente`,
             data: await User.findOne({ 
                 where: { username },
                 attributes: ['id','username', 'firstname', 'lastname', 'email', 'password', 'cellnumber', 'address', 'image', 'experience', 'role'] })
-        });
-    }   
+            });
+        }   
      catch (error) {
         console.error(error);
         res.status(400).send({message: "El usuario no pudo ser creado", error: error.message});

@@ -269,6 +269,19 @@ const addImage = async (model, req ) => {
   };
 };
 
+const deleteInf = async (model) =>{
+  switch (model) {
+    case 'User':
+      return await User.findAll({where: {deleted: true}})
+      
+    case 'Adpost':
+      return await Adpost.findAll({where: {deleted: true}})
+
+    default:
+      throw new Error('Modelo no válido');
+  }
+}
+
 module.exports = {
     allInf,
     withRole,
@@ -280,5 +293,6 @@ module.exports = {
     createNew,
     deleteFromModel,
     updateModel,
-    addImage
+    addImage,
+    deleteInf
 }

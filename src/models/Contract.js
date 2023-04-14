@@ -19,6 +19,11 @@ module.exports = (database) =>{
         payment:{
             type: DataTypes.FLOAT,
             allowNull: false
+        },
+        details:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: false
         }
 
     })

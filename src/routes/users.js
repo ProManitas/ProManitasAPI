@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const router = Router();
 //CONTROLLERS
-const { getUsers, getUserId } = require('../controllers/controlerGet');
+const { getUsers, getUserId, deletedUsers } = require('../controllers/controlerGet');
 const {signUp} = require('../controllers/controlerPost')
 const {updateUser} = require('../controllers/controlerPut')
 //MIDDLEWARES
@@ -13,6 +13,10 @@ const { deleteUser } = require('../controllers/controlerDelete');
 router.get('/', (req, res) => {
     getUsers(req, res)
 });
+
+router.get('/deleted', (req, res)=>{
+    deletedUsers(req, res)
+})
 
 //USER FOR ID
 router.get('/:id', validationID(), (req, res) => {
