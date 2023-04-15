@@ -8,12 +8,13 @@ module.exports = (database) =>{
             autoIncrement: true
         },
         rating:{
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        comment:{
-            type: DataTypes.TEXT,   
+            type: DataTypes.FLOAT,
             allowNull: false
+        },
+        deleted:{
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     })
 }
