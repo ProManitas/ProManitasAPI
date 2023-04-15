@@ -8,13 +8,14 @@ const adposts = require('./adposts.js');
 const login = require('./login.js');
 const payment = require('./payment.js')
 const contract = require('./contract.js')
+const rating = require('./rating.js')
 
 // router.use((req, res, next) => {
 //     const error = new Error('Not Found');
 //     error.status = 404;
 //     next(error);
 //   });
-  
+   
 //   // Manejador de errores
 //   router.use((err, req, res, next) => {
 //     res.status(err.status || 500);
@@ -58,6 +59,10 @@ router.use('/api/v1/payment', (req, res)=>{
 //CONTRACT ROUTE
 router.use('/api/v1/contract', (req, res)=>{
     contract(req, res)
+})
+
+router.use('/api/v1/rating', (req, res)=>{
+    rating(req, res)
 })
 
 module.exports = router;

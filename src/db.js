@@ -53,6 +53,14 @@ Adpost.belongsToMany(User, {through: 'FinishedService'});
 User.hasMany(Contract);
 Contract.belongsTo(User);
 
+//RELATION USER && RATING
+User.hasMany(Rating)
+Rating.belongsTo(User)
+
+//Relation RATING && ADPOST
+Adpost.hasMany(Rating)
+Rating.belongsTo(Adpost)
+
 module.exports = {
     ...database.models, 
     database

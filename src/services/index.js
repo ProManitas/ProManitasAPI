@@ -24,6 +24,9 @@ const allInf = async (model) => {
         case 'Contract':
           return await Contract.findAll({attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'detail', 'UserId']})
 
+        case 'Rating':
+          return await Rating.findAll({where: {deleted: false}, attributes: ['id', 'rating', 'AdpostId', 'UserId']});
+
         default:
             throw new Error('Modelo no válido');
     };
@@ -93,6 +96,9 @@ const filterID = async (model , id) => {
         
         case 'Contract':
           return await Contract.findByPk(id, {attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'UserId']})
+
+        case 'Rating':
+          return await Rating.findByPk(id, {attributes: ['id', 'rating', 'AdpostId', 'UserId']})
         
         default:
             throw new Error('Modelo no válido');
@@ -161,6 +167,11 @@ const createNew = async (model, req) => {
           detail: req.body.detail
         })
 
+      case 'Rating':
+        return await Rating.create({
+          rating: req.body.rating
+        })
+
       default:
         throw new Error('Modelo no válido');
     }
@@ -183,6 +194,9 @@ const createNew = async (model, req) => {
 
     case Contract:
        return await Contract.update({deleted: true}, {where: {id: id}})
+
+    case Rating:
+      return await Rating.update({deleted: true}, {where: {id: id}})
 
     default:
         throw new Error('Modelo no válido')
@@ -288,6 +302,9 @@ const deleteInf = async (model) =>{
 
     case 'Contract':
       return await Contract.findAll({where: {deleted: true}})
+
+    case 'Rating':
+      return await Rating.findAll({where: {deleted: true}})
 
     default:
       throw new Error('Modelo no válido');

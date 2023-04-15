@@ -4,7 +4,6 @@ const { sendEmail } = require('../nodemailer/nodemailer');
 const { createNew, addImage } = require('../services');
 
 
-
 //-----------------------USERS-------------
 //CREATE NEW USER
 const signUp = async (req, res) => {
@@ -19,13 +18,20 @@ const signUp = async (req, res) => {
             const userServiceRelation = await Services.findOne({where: {name : service}});
             await userServiceRelation.addUser(sign)
         }  
+
+        const html = `<h3>Bienvenido a Promanitas ${req.body.firstname}!</h3>
+                <p>Gracias por suscribirte, nos complace el hecho de que seas parte de nuestra 
+                comunidad y el habernos elegido como empresa. </p>
+                <h4>Seguí explorando promanitas.</h4>
+                <br></br>
+                        <a href= "https://www.freecodecamp.org/"><button>Click aquí</button></a>`
                  
           const message = {
             from: 'promanitaspf@gmail.com', 
             to: email,
             subject: "Bienvenido a Promanitas!",
             text: "Gracias por Suscribirte a promanitas",
-            html: '<b>Bienvenido a Promanitas!!</b>',
+            html: html
         };
           
           sendEmail(message)
@@ -94,12 +100,28 @@ const newAdpost = async (req, res) =>{
 //---------------------------------CONTRACT
 //CREATE NEW CONTRACT
 const newContract = async (req, res) =>{
-    const {username} = req.body
+    const {username, email} = req.body
     try {
         const createContract = await createNew('Contract', req)
 
         const findUser = await User.findOne({where: {username : username}})
         await findUser.addContract(createContract)
+
+        const html = `<h3>Hola ${req.body.firstname}!</h3>
+        <p>Gracias nuevamente por confiar en nuestros servicios, es un honor para nosotros ayudar a nuestra comunidad Promanitas.</p>
+        <h4>Para tener acceso a tu Key de contrato puedes hacer click.</h4>
+        <br></br>
+                <a href= "https://www.freecodecamp.org/"><button>Click aquí</button></a>`
+         
+        const message = {
+        from: 'promanitaspf@gmail.com', 
+        to: email,
+        subject: "Bienvenido a Promanitas!",
+        text: "Contrato realizado exitosamente",
+        html: html
+        };
+
+        sendEmail(message)
 
         res.status(201).send({
             message: 'Su Contrato se ha realizado exitosamente',
@@ -110,6 +132,27 @@ const newContract = async (req, res) =>{
     }
 }
 
+const rate = async (req, res) =>{
+    const { id } = req.params
+    const { username } = req.body 
+    try {
+        const newRate = await createNew('Rating', req)
+
+        const findUser = await User.findOne({where: {username : username}})
+        await findUser.addRating(newRate)
+        
+        const findAd = await Adpost.findByPk(id)
+        await findAd.addRating(newRate)
+
+        res.status(201).send({
+            message: 'Se ha calificado correctamente',
+            data: await newRate
+        })
+    } catch (error) {
+        res.status(400).send({message: 'No se pudo proceder la calificación', error: error.message})
+    }
+}
+
 //---------------------------------------------------------------------
 
 module.exports ={
@@ -117,4 +160,5 @@ module.exports ={
     postServices,
     newAdpost,
     newContract,
+    rate
 }

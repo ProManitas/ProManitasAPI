@@ -260,6 +260,39 @@ const deletedContracts = async (req, res) => {
   }
 }
 
+const getRatings = async (req, res) =>{
+  try {
+    res.status(200).send({
+      message: 'Todas las calificaciones',
+      data: await allInf('Rating')
+    })
+  } catch (error) {
+    res.status(400).send({message: 'Ocurrió un error al encontrar todas las calificaciones', error: error.message})
+  }
+}
+
+const getRatingId = async (req, res) =>{
+  const { id } = req.params
+  try {
+    res.status(200).send({
+      message:`Se encontró la calificacion con ID: ${id}`,
+      data: await filterID('Rating', id)
+    })
+  } catch (error) {
+    res.status(400).send({message: 'Ocurrió un error al buscar la calificación'})
+  }
+}
+
+const deletedRatings = async (req, res)=>{
+  try {
+    res.status(200).send({
+      message: 'Todos las calificaciones eliminadas',
+      data: await deleteInf('Rating')
+    })
+  } catch (error) {
+    res.status(400).send({mesagge: 'Ocurrió un error al buscar las calificaciones eliminadas'})
+  }
+}
 
 module.exports = {
   getUsers,
@@ -272,5 +305,8 @@ module.exports = {
   getContractId,
   deletedUsers,
   deletedAdposts,
-  deletedContracts
+  deletedContracts,
+  getRatings,
+  getRatingId,
+  deletedRatings
 };
