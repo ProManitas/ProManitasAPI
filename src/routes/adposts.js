@@ -6,6 +6,9 @@ const { getAdposts, getAdpostsId, deletedAdposts } = require('../controllers/con
 const { newAdpost } = require('../controllers/controlerPost');
 const { updateAdpost } = require('../controllers/controlerPut');
 const { deleteAdpost } = require('../controllers/controlerDelete');
+//MULTER
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 //-------------GET
 //ALL ADPOSTS
@@ -23,7 +26,7 @@ router.get('/:id', (req, res)=>{
 })
 //----------------POST
 //CREATE NEW ADPOST
-router.post('/', newAdpost);
+router.post('/', upload.single('image'), newAdpost);
 
 //----------------PUT
 router.put('/:id', (req, res)=>{
