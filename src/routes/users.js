@@ -3,8 +3,11 @@ const { Router } = require('express');
 const router = Router();
 //CONTROLLERS
 const { getUsers, getUserId, deletedUsers } = require('../controllers/controlerGet');
-const {signUp} = require('../controllers/controlerPost')
-const {updateUser} = require('../controllers/controlerPut')
+const {signUp} = require('../controllers/controlerPost');
+const {updateUser} = require('../controllers/controlerPut');
+//MULTER
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 //MIDDLEWARES
 const { validationID, validatorSignIn } = require('../middleware/index.js');
 const { deleteUser } = require('../controllers/controlerDelete');
@@ -25,7 +28,7 @@ router.get('/:id', validationID(), (req, res) => {
 
 //------------------------POST
 //FORM TO SIGN-IN
-router.post('/', signUp)
+router.post('/',upload.single('image'), signUp)
 
 //-----------------------PUT
 router.put('/:id', (req, res) => {

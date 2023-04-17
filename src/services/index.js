@@ -2,6 +2,8 @@
 const { Op } = require('sequelize');
 const { Adpost, Rating, Services, User, Contract } = require('../db');
 const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 //ALL USERS
 const allInf = async (model) => {
     
@@ -266,7 +268,7 @@ const addImage = async (model, req ) => {
 
   const hashUrl = arr.toString().replace(/,/g, "");
   
-  const uploadImage = cloudinary.uploader.upload(req.body.image, {public_id: hashUrl})
+  const uploadImage = cloudinary.uploader.upload(req.file.path, {public_id: hashUrl})
 
   // Generate 
   const Url = cloudinary.url(hashUrl, {
