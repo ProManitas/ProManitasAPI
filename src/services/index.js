@@ -24,7 +24,7 @@ const allInf = async (model) => {
             });
 
         case 'Contract':
-          return await Contract.findAll({attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'detail', 'UserId']})
+          return await Contract.findAll({attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'paid', 'detail', 'UserId']})
 
         case 'Rating':
           return await Rating.findAll({where: {deleted: false}, attributes: ['id', 'rating', 'AdpostId', 'UserId']});
@@ -97,7 +97,7 @@ const filterID = async (model , id) => {
                 attributes: ["id","name", "description","image", "UserId", "ServiceId"]})
         
         case 'Contract':
-          return await Contract.findByPk(id, {attributes: ['id', 'commencementDate', 'terminationDate', 'payment', 'UserId']})
+          return await Contract.findByPk(id, {attributes: ['id', 'commencementDate', 'terminationDate', 'payment', "paid", 'UserId']})
 
         case 'Rating':
           return await Rating.findByPk(id, {attributes: ['id', 'rating', 'AdpostId', 'UserId']})
@@ -235,7 +235,8 @@ const updateModel = async (model, id, req) => {
 
       case Contract:
         return await Contract.update({
-          payment: req.body.amount
+          payment: req.body.amount,
+          paid: true
         }, {where: { id: id } })
        
       default:
