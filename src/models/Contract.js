@@ -21,6 +21,10 @@ module.exports = (database) =>{
             type: DataTypes.FLOAT,
             allowNull: false
         },
+        paid: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
         detail:{
             type: DataTypes.STRING,
             allowNull: false,
