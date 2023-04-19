@@ -235,7 +235,6 @@ const updateModel = async (model, id, req) => {
 
       case Contract:
         return await Contract.update({
-          payment: req.body.amount,
           paid: true
         }, {where: { id: id } })
        

@@ -6,7 +6,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const createStripeSession = async (req, res) => {
   // const { contractId } = req.params
-  const { id, amount, description, email } = req.body;
+  const { id, amount, description, email, contractId } = req.body;
 
   try {
     const payment = await stripe.paymentIntents.create({
@@ -17,9 +17,9 @@ const createStripeSession = async (req, res) => {
       description,
     });
 
-    const updateContract = await updateModel(Contract, req)
+    const updateContract = await updateModel(Contract, contractId, req)
 
-    const html = `<h3>${req.body.firstname} tu pago ha sido recibido exitosamente!</h3>
+    const html = `<h3> Tu pago ha sido recibido exitosamente!</h3>
     <p>Gracias por aceptar nuestros terminos y condiciones, el contrato realizado tendra una duracion máxima de 10 dias hábiles
     una vez realizado el pago.</p>
     <br/>
@@ -36,7 +36,7 @@ const createStripeSession = async (req, res) => {
     text: "Pago realizado exitosamente",
     html: html
     };
-
+ 
     sendEmail(message)
 
     res.status(200).json({ message: "Pago procesado exitosamente." });
