@@ -7,8 +7,8 @@ const sendEmail = (message) =>{
         port: 587,
         secure: false,
         auth: {
-            user: 'promanitaspf@gmail.com',
-            pass: 'jnnfqyjmkcbversi'
+            user: process.env.USER,
+            pass: process.env.PASS
         }
     })
 
