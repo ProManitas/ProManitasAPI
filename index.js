@@ -22,14 +22,14 @@
 //------------------------MOCK DATA----------------------------------
 const { User, Services, Adpost, Rating, Contract } = require('./src/db');
 
-// const fakeDb = require('./src/MOCK_DATA_SERVICES.json');
+const fakeDb = require('./src/MOCK_DATA_SERVICES.json');
 // const fakeDbUsers = require('./src/MOCK_DATA_USERS.json');
 // const fakeDbAdpost = require('./src/MOCK_DATA_ADPOST.json');
 // const fakeDbContracts = require('./src/MOCK_DATA_CONTRACTS.json')
 
-// const filledDbServices = async () =>{ 
-//     fakeDb.map(e => Services.create({name : e.name, image:e.image }));
-// };
+const filledDbServices = async () =>{ 
+    fakeDb.map(e => Services.create({name : e.name, image:e.image }));
+};
 
 // const filledDbAdpost = async () =>{
 //     fakeDbAdpost.map(post => Adpost.create({name : post.name, description: post.description, image: post.image}));
@@ -68,7 +68,7 @@ database.sync({ alter: true })
     .then(() => {
         server.listen(3001, () => {
             // filledDbUsers() 
-            // filledDbServices()
+            filledDbServices()
             // filledDbAdpost()
             // filledContracts()
             console.log('Listening at' + ' ' + 3001)
