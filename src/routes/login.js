@@ -52,7 +52,7 @@ const authConfig = {
     //Verificar las credenciales del usuario y crear un token de acceso
     if (customer !== null) {
       const accessToken = createAccessToken(user);
-      res.json({ accessToken: accessToken });
+      res.json({ token: accessToken });
     } else {
       res.status(401).send('Invalid username or password');
     }

@@ -268,7 +268,7 @@ const addImage = async (model, req ) => {
 
   const hashUrl = arr.toString().replace(/,/g, "");
   
-  const uploadImage = cloudinary.uploader.upload(req.file.path, {public_id: hashUrl})
+  const uploadImage = cloudinary.uploader.upload('../../uploads/*', {public_id: hashUrl})
 
   // Generate 
   const Url = cloudinary.url(hashUrl, {
