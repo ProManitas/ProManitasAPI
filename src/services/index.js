@@ -255,21 +255,31 @@ const addImage = async (model, req ) => {
   
   cloudinary.uploader.upload('../../uploads/*', async function(error, result) {
     console.log(result.url);
-    switch (model) {
-  
-      case 'User':
-  
-        return await User.update({
+
+    if(model === 'User'){
+      return await User.update({
           image: result.url
         }, { where: { username: req.body.username } });
-        
-      case 'Adposts':
-  
-        return await Adpost.update({
+    }else{
+      return await Adpost.update({
           image: result.url
         }, { where: { name: req.body.name } });
+    }
+    // switch (model) {
+  
+    //   case 'User':
+    //     return await User.update({
+    //       image: result.url
+    //     }, { where: { username: req.body.username } });
+        
+        
+    //   case 'Adposts':
+  
+    //     return await Adpost.update({
+    //       image: result.url
+    //     }, { where: { name: req.body.name } });
     
-    };
+    // };
   });
 
   // // Generate 
