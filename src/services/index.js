@@ -267,31 +267,37 @@ const addImage = async (model, req ) => {
   
 
   const hashUrl = arr.toString().replace(/,/g, "");
+
+  cloudinary.v2.uploader.upload("ruta/a/tu/imagen", function(error, result) {
+  console.log(result.url);  UR//L pública de la imagen subida
+});
   
-  const uploadImage = cloudinary.uploader.upload('../../uploads/*', {public_id: hashUrl})
-
-  // Generate 
-  const Url = cloudinary.url(hashUrl, {
-      width: 200,
-      height: 200,
-      Crop: 'fill'
-  });
-
-  switch (model) {
-
-    case 'User':
-
-      return await User.update({
-        image: Url
-      }, { where: { username: req.body.username } });
-      
-    case 'Adposts':
-
-      return await Adpost.update({
-        image: Url
-      }, { where: { name: req.body.name } });
+  const uploadImage = cloudinary.uploader.upload('../../uploads/*', async function(error, result) {
+    console.log(result.url);
+    switch (model) {
   
-  };
+      case 'User':
+  
+        return await User.update({
+          image: result.url
+        }, { where: { username: req.body.username } });
+        
+      case 'Adposts':
+  
+        return await Adpost.update({
+          image: result.url
+        }, { where: { name: req.body.name } });
+    
+    };
+  })
+
+  // // Generate 
+  // const Url = cloudinary.url(hashUrl, {
+  //     width: 200,
+  //     height: 200,
+  //     Crop: 'fill'
+  // });
+
 };
 
 const deleteInf = async (model) =>{
