@@ -18,7 +18,6 @@ module.exports = (database) =>{
         image:{
             type: DataTypes.TEXT,
             allowNull: false,
-            defaultValue: false
         },
         deleted:{
             type: DataTypes.BOOLEAN,

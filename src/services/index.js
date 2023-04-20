@@ -286,7 +286,7 @@ const addImage = async (model, req ) => {
   
         return await Adpost.update({
           image: result.url
-        }, { where: { name: req.body.name } });
+        }, { where: { name: req.body.description } });
     
     };
   })
