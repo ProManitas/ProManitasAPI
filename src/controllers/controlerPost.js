@@ -71,20 +71,21 @@ const newAdpost = async (req, res) =>{
     const {username, service, name} = req.body
     try {
         const adpost = await createNew('Adpost', req)
-        await addImage('Adposts', req )
         
         //RELATION USER AND ADPOST
         const findIdUser = await User.findOne({where : {username : username}});
         await findIdUser.addAdpost(adpost);
-
+        
         //RELATION SERVICE AND ADPOST
         const findIdService = await Services.findOne({where: {name : service}});
         await findIdService.addAdpost(adpost);
-
+        
         //RELATION USER AND SERVICE
         const userServiceRelation = await Services.findOne({where: {name : service}});
-        await userServiceRelation.addUser(findIdUser)
+        await userServiceRelation.addUser(findIdUser);
 
+        await addImage('Adposts', req )
+        
         res.status(201).send({
             message: 'Su anuncio se ha posteado correctamente',
             data: await Adpost.findOne({ 
