@@ -252,27 +252,8 @@ const addImage = async (model, req ) => {
     api_secret: process.env.API_SECRET
   });
 
-  const arr = [];
-
-  if(req.body.hasOwnProperty('username')){
-    for(i = 0 ; i < req.body.username.length ; i++){
-      arr.push(req.body.username[i].charCodeAt())
-    };
-  }else{
-    for(i = 0 ; i < req.body.name.length ; i++){
-      arr.push(req.body.name[i].charCodeAt())
-    };
-  }
   
-  
-
-  const hashUrl = arr.toString().replace(/,/g, "");
-
-//   cloudinary.v2.uploader.upload("ruta/a/tu/imagen", function(error, result) {
-//   console.log(result.url);  UR//L pública de la imagen subida
-// });
-  
-  const uploadImage = cloudinary.uploader.upload('../../uploads/*', async function(error, result) {
+  cloudinary.uploader.upload('../../uploads/*', async function(error, result) {
     console.log(result.url);
     switch (model) {
   
@@ -289,7 +270,7 @@ const addImage = async (model, req ) => {
         }, { where: { name: req.body.name } });
     
     };
-  })
+  });
 
   // // Generate 
   // const Url = cloudinary.url(hashUrl, {
