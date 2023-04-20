@@ -254,7 +254,6 @@ const addImage = async (model, req ) => {
 
   
   cloudinary.uploader.upload('../../uploads/*', async function(error, result) {
-    console.log(result.url);
 
     if(model === 'User'){
       return await User.update({
