@@ -268,9 +268,9 @@ const addImage = async (model, req ) => {
 
   const hashUrl = arr.toString().replace(/,/g, "");
 
-  cloudinary.v2.uploader.upload("ruta/a/tu/imagen", function(error, result) {
-  console.log(result.url);  UR//L pública de la imagen subida
-});
+//   cloudinary.v2.uploader.upload("ruta/a/tu/imagen", function(error, result) {
+//   console.log(result.url);  UR//L pública de la imagen subida
+// });
   
   const uploadImage = cloudinary.uploader.upload('../../uploads/*', async function(error, result) {
     console.log(result.url);
@@ -286,7 +286,7 @@ const addImage = async (model, req ) => {
   
         return await Adpost.update({
           image: result.url
-        }, { where: { description: req.body.description } });
+        }, { where: { name: req.body.name } });
     
     };
   })
